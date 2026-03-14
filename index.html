@@ -32,11 +32,33 @@
             --accent-amber: #ff9f0a;
             --accent-red: #ff453a;
 
-            /* Glass Tints */
-            --good-tint: rgba(48, 209, 88, 0.12);
-            --transit-tint: rgba(10, 132, 255, 0.12);
-            --medium-tint: rgba(255, 159, 10, 0.12);
-            --bad-tint: rgba(255, 69, 58, 0.12);
+            /* Glass Card Base Tints (Always Visible) */
+            --tint-delivered-bg: rgba(48, 209, 88, 0.06);
+            --tint-delivered-border: rgba(48, 209, 88, 0.3);
+            --tint-delivered-hover: rgba(48, 209, 88, 0.12);
+            
+            --tint-transit-bg: rgba(10, 132, 255, 0.06);
+            --tint-transit-border: rgba(10, 132, 255, 0.3);
+            --tint-transit-hover: rgba(10, 132, 255, 0.12);
+
+            --tint-picked-bg: rgba(255, 159, 10, 0.06);
+            --tint-picked-border: rgba(255, 159, 10, 0.3);
+            --tint-picked-hover: rgba(255, 159, 10, 0.12);
+
+            --tint-queued-bg: rgba(255, 159, 10, 0.03);
+            --tint-queued-border: rgba(255, 159, 10, 0.15);
+            --tint-queued-hover: rgba(255, 159, 10, 0.08);
+
+            --tint-rto-bg: rgba(255, 69, 58, 0.06);
+            --tint-rto-border: rgba(255, 69, 58, 0.3);
+            --tint-rto-hover: rgba(255, 69, 58, 0.12);
+
+            /* Prominent Badge Backgrounds */
+            --badge-delivered-bg: rgba(48, 209, 88, 0.15);
+            --badge-transit-bg: rgba(10, 132, 255, 0.15);
+            --badge-picked-bg: rgba(255, 159, 10, 0.15);
+            --badge-queued-bg: rgba(255, 159, 10, 0.1);
+            --badge-rto-bg: rgba(255, 69, 58, 0.15);
         }
 
         body.light-mode {
@@ -53,11 +75,33 @@
             --sub-box-bg: rgba(0, 0, 0, 0.04);
             --sticky-col-bg: rgba(248, 248, 250, 0.95);
             
-            /* Tints */
-            --good-tint: rgba(52, 199, 89, 0.15);
-            --transit-tint: rgba(0, 122, 255, 0.15);
-            --medium-tint: rgba(255, 159, 10, 0.15);
-            --bad-tint: rgba(255, 59, 48, 0.15);
+            /* Tints for Light Mode */
+            --tint-delivered-bg: rgba(52, 199, 89, 0.1);
+            --tint-delivered-border: rgba(52, 199, 89, 0.35);
+            --tint-delivered-hover: rgba(52, 199, 89, 0.18);
+            
+            --tint-transit-bg: rgba(0, 122, 255, 0.1);
+            --tint-transit-border: rgba(0, 122, 255, 0.35);
+            --tint-transit-hover: rgba(0, 122, 255, 0.18);
+
+            --tint-picked-bg: rgba(255, 149, 0, 0.1);
+            --tint-picked-border: rgba(255, 149, 0, 0.35);
+            --tint-picked-hover: rgba(255, 149, 0, 0.18);
+
+            --tint-queued-bg: rgba(255, 149, 0, 0.05);
+            --tint-queued-border: rgba(255, 149, 0, 0.2);
+            --tint-queued-hover: rgba(255, 149, 0, 0.12);
+
+            --tint-rto-bg: rgba(255, 59, 48, 0.1);
+            --tint-rto-border: rgba(255, 59, 48, 0.35);
+            --tint-rto-hover: rgba(255, 59, 48, 0.18);
+
+            /* Prominent Badge Backgrounds */
+            --badge-delivered-bg: rgba(52, 199, 89, 0.2);
+            --badge-transit-bg: rgba(0, 122, 255, 0.2);
+            --badge-picked-bg: rgba(255, 149, 0, 0.2);
+            --badge-queued-bg: rgba(255, 149, 0, 0.12);
+            --badge-rto-bg: rgba(255, 59, 48, 0.2);
         }
 
         body {
@@ -98,19 +142,46 @@
             transform: scale(1.01) translateY(-2px);
         }
 
-        /* Result Box - iOS 26 High Fidelity Pop */
+        /* Ambient Glass Status Tints (Always applied) */
+        .result-card.delivered { background-color: var(--tint-delivered-bg); border-color: var(--tint-delivered-border); }
+        .result-card.transit { background-color: var(--tint-transit-bg); border-color: var(--tint-transit-border); }
+        .result-card.picked-up { background-color: var(--tint-picked-bg); border-color: var(--tint-picked-border); }
+        .result-card.queued { background-color: var(--tint-queued-bg); border-color: var(--tint-queued-border); }
+        .result-card.rto { background-color: var(--tint-rto-bg); border-color: var(--tint-rto-border); }
+
+        /* Result Box - Hover Intensification */
         @media (hover: hover) {
             .result-card:hover {
-                transform: scale(1.025) translateY(-6px);
-                box-shadow: 0 40px 80px -15px rgba(0,0,0,0.3);
+                transform: scale(1.02) translateY(-4px);
+                box-shadow: 0 30px 70px -15px rgba(0,0,0,0.3);
                 z-index: 10;
             }
-            .result-card.delivered:hover { background-color: rgba(48, 209, 88, 0.18); border-color: rgba(48, 209, 88, 0.4); }
-            .result-card.transit:hover { background-color: rgba(10, 132, 255, 0.18); border-color: rgba(10, 132, 255, 0.4); }
-            .result-card.picked-up:hover { background-color: rgba(255, 159, 10, 0.18); border-color: rgba(255, 159, 10, 0.4); }
-            .result-card.queued:hover { background-color: rgba(255, 159, 10, 0.12); border-color: rgba(255, 159, 10, 0.3); }
-            .result-card.rto:hover { background-color: rgba(255, 69, 58, 0.18); border-color: rgba(255, 69, 58, 0.4); }
+            .result-card.delivered:hover { background-color: var(--tint-delivered-hover); border-color: rgba(48, 209, 88, 0.5); }
+            .result-card.transit:hover { background-color: var(--tint-transit-hover); border-color: rgba(10, 132, 255, 0.5); }
+            .result-card.picked-up:hover { background-color: var(--tint-picked-hover); border-color: rgba(255, 159, 10, 0.5); }
+            .result-card.queued:hover { background-color: var(--tint-queued-hover); border-color: rgba(255, 159, 10, 0.3); }
+            .result-card.rto:hover { background-color: var(--tint-rto-hover); border-color: rgba(255, 69, 58, 0.5); }
         }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .status-badge.delivered { background-color: var(--badge-delivered-bg); border: 1px solid var(--tint-delivered-border); color: var(--accent-green); }
+        .status-badge.transit { background-color: var(--badge-transit-bg); border: 1px solid var(--tint-transit-border); color: var(--accent-blue); }
+        .status-badge.picked-up { background-color: var(--badge-picked-bg); border: 1px solid var(--tint-picked-border); color: var(--accent-amber); }
+        .status-badge.queued { background-color: var(--badge-queued-bg); border: 1px solid var(--tint-queued-border); color: var(--accent-amber); }
+        .status-badge.rto { background-color: var(--badge-rto-bg); border: 1px solid var(--tint-rto-border); color: var(--accent-red); }
 
         /* Nav Control */
         .nav-pill-container {
@@ -499,25 +570,22 @@
             results.reverse().forEach((item, index) => {
                 const isDispatch = item.source === 'Dispatch';
                 let statusClass = 'transit';
-                let accentColor = 'var(--accent-blue)';
                 let statusLabel = item.deliveryStatus || "In Transit";
                 const rawStatus = (item.deliveryStatus || '').toLowerCase();
                 const rawTriageStatus = (item.status || '').toLowerCase();
 
                 if (!isDispatch) {
                     if (rawTriageStatus.includes('hold')) {
-                        statusClass = 'rto'; // Uses the red alert styling
-                        accentColor = 'var(--accent-red)';
+                        statusClass = 'rto';
                         statusLabel = item.status || "On Hold";
                     } else {
                         statusClass = 'queued'; 
-                        accentColor = 'var(--accent-amber)'; 
                         statusLabel = item.status || "Order Queued";
                     }
                 } else {
-                    if (rawStatus.includes('delivered')) { statusClass = 'delivered'; accentColor = 'var(--accent-green)'; statusLabel = "Delivered"; }
-                    else if (rawStatus.includes('picked') || rawStatus.includes('courier')) { statusClass = 'picked-up'; accentColor = 'var(--accent-amber)'; statusLabel = "Picked Up"; }
-                    else if (rawStatus.includes('rto')) { statusClass = 'rto'; accentColor = 'var(--accent-red)'; statusLabel = "RTO"; }
+                    if (rawStatus.includes('delivered')) { statusClass = 'delivered'; statusLabel = "Delivered"; }
+                    else if (rawStatus.includes('picked') || rawStatus.includes('courier')) { statusClass = 'picked-up'; statusLabel = "Picked Up"; }
+                    else if (rawStatus.includes('rto')) { statusClass = 'rto'; statusLabel = "RTO"; }
                 }
 
                 const courierUrl = getCourierLink(item.courier);
@@ -546,9 +614,9 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-2.5 bg-[var(--sub-box-bg)] px-4 md:px-5 py-2 md:py-2.5 rounded-full border border-[var(--card-border)] whitespace-nowrap self-start sm:self-auto">
-                            <div class="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full pulse-dot" style="background-color: ${accentColor}; box-shadow: 0 0 12px ${accentColor}"></div>
-                            <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider" style="color: ${accentColor}">${statusLabel}</span>
+                        <div class="status-badge ${statusClass} text-[10px] md:text-xs self-start sm:self-auto shadow-sm">
+                            <div class="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full pulse-dot bg-current shadow-[0_0_12px_currentColor]"></div>
+                            <span>${statusLabel}</span>
                         </div>
                     </div>
 
