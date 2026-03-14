@@ -495,7 +495,8 @@
                 <div class="flex flex-col gap-4 md:gap-6">
             `;
 
-            results.forEach((item, index) => {
+            // Reverse the results array to show the most recent orders first
+            results.reverse().forEach((item, index) => {
                 const isDispatch = item.source === 'Dispatch';
                 let statusClass = 'transit';
                 let accentColor = 'var(--accent-blue)';
