@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Zell | Book Management</title>
     
     <link rel="icon" href="https://raw.githubusercontent.com/YashShah20F/Dashboard-V3/main/favicon%20BW.png" type="image/png">
@@ -263,10 +263,11 @@
 <body class="h-screen flex flex-col overflow-hidden">
 
     <!-- Header -->
-    <header class="w-full glass z-[60] border-b border-[var(--card-border)] bg-[var(--header-bg)] flex-shrink-0">
-        <div class="max-w-7xl mx-auto h-16 md:h-20 px-4 md:px-8 flex items-center justify-between">
+    <!-- Added top padding targeting safe-area-insets to protect against notches/dynamic islands -->
+    <header class="w-full glass z-[60] border-b border-[var(--card-border)] bg-[var(--header-bg)] flex-shrink-0" style="padding-top: max(env(safe-area-inset-top), 0.5rem);">
+        <div class="max-w-7xl mx-auto h-20 md:h-24 px-5 md:px-8 flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <span class="text-xl md:text-2xl font-bold tracking-tighter text-[var(--text-color)]">Zell</span>
+                <span class="text-2xl md:text-3xl font-extrabold tracking-tighter text-[var(--text-color)]">Zell</span>
             </div>
 
             <div class="nav-pill-container glass">
@@ -274,14 +275,14 @@
                 <button data-tab="metrics" class="nav-item">Dashboard</button>
             </div>
 
-            <button id="theme-toggle" class="w-8 h-8 md:w-10 md:h-10 rounded-full glass border border-[var(--card-border)] flex items-center justify-center active:scale-95 transition-all text-[var(--text-color)]">
+            <button id="theme-toggle" class="w-9 h-9 md:w-11 md:h-11 rounded-full glass border border-[var(--card-border)] flex items-center justify-center active:scale-95 transition-all text-[var(--text-color)]">
                 <i class="fas fa-sun text-sm md:text-base"></i>
             </button>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow overflow-y-auto relative px-4 md:px-8 py-8 md:py-12 custom-scrollbar">
+    <main class="flex-grow overflow-y-auto relative px-4 md:px-8 pt-6 pb-10 md:py-12 custom-scrollbar">
         <div class="max-w-4xl mx-auto">
             
             <!-- SEARCH TAB -->
