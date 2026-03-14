@@ -431,17 +431,17 @@
                     
                     <div class="glass-card shadow-xl border border-[var(--card-border)] relative table-container">
                         <div class="overflow-x-auto custom-scrollbar w-full">
-                            <table class="w-full text-left border-collapse mobile-table md:min-w-[700px]">
+                            <table class="w-full text-left border-collapse mobile-table md:min-w-[800px]">
                                 <thead>
                                     <tr class="bg-[var(--sub-box-bg)] border-b border-[var(--card-border)] text-[var(--text-muted-color)] text-[10px] md:text-xs font-bold uppercase tracking-wider">
                                         <th class="p-4 md:px-5 md:py-5 sticky-col">Batch Name</th>
                                         <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Today</th>
                                         <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Transit</th>
                                         <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Issues</th>
-                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Out</th>
-                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Done</th>
+                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Dispatched</th>
+                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Delivered</th>
                                         <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap sortable group" id="col-delivery-pct">
-                                            Success % <i class="fas fa-sort sort-icon"></i>
+                                            Delivered% <i class="fas fa-sort sort-icon"></i>
                                         </th>
                                     </tr>
                                 </thead>
@@ -765,9 +765,9 @@
                 ${createMetricBox('Queue', t.ordersToday, 'fa-calendar-day')}
                 ${createMetricBox('In Transit', t.inTransit, 'fa-truck-fast', 'text-[var(--accent-blue)]')}
                 ${createMetricBox('Alerts', t.deliveryIssues, 'fa-exclamation-triangle', t.deliveryIssues > 0 ? 'text-[var(--accent-red)]' : '')}
-                ${createMetricBox('Out', t.totalDispatched, 'fa-box')}
-                ${createMetricBox('Done', t.totalDelivered, 'fa-check-double', 'text-[var(--accent-green)]')}
-                ${createMetricBox('Success', overallPct + '%', 'fa-chart-pie', colorClass)}
+                ${createMetricBox('Dispatched', t.totalDispatched, 'fa-box')}
+                ${createMetricBox('Delivered', t.totalDelivered, 'fa-check-double', 'text-[var(--accent-green)]')}
+                ${createMetricBox('Delivered%', overallPct + '%', 'fa-chart-pie', colorClass)}
             `;
         }
 
@@ -790,9 +790,9 @@
                     <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap" data-label="Today">${formatNumber(b.ordersToday)}</td>
                     <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-blue)] whitespace-nowrap" data-label="Transit">${formatNumber(b.inTransit)}</td>
                     <td class="p-4 md:px-5 md:py-5 text-right font-bold tabular-nums text-xs md:text-sm ${b.deliveryIssues > 0 ? 'text-[var(--accent-red)]' : 'text-[var(--text-muted-color)] opacity-50'} whitespace-nowrap" data-label="Issues">${formatNumber(b.deliveryIssues)}</td>
-                    <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap" data-label="Out">${formatNumber(b.totalDispatched)}</td>
-                    <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-green)] whitespace-nowrap" data-label="Done">${formatNumber(b.totalDelivered)}</td>
-                    <td class="p-4 md:px-5 md:py-5 text-right font-bold tabular-nums text-xs md:text-sm ${colorClass} whitespace-nowrap" data-label="Success %">${completionPct}%</td>
+                    <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap" data-label="Dispatched">${formatNumber(b.totalDispatched)}</td>
+                    <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-green)] whitespace-nowrap" data-label="Delivered">${formatNumber(b.totalDelivered)}</td>
+                    <td class="p-4 md:px-5 md:py-5 text-right font-bold tabular-nums text-xs md:text-sm ${colorClass} whitespace-nowrap" data-label="Delivered%">${completionPct}%</td>
                 </tr>
             `}).join('');
         }
