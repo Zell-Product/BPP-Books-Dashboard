@@ -415,6 +415,13 @@
                 let courierPartnerDisplay = isDispatch ? item.courier : 'Pending Order';
                 if (rawStatus.includes('rto')) courierPartnerDisplay = 'Not Assigned';
 
+                // Format destination if it exists
+                let addressParts = [];
+                if (item.address && String(item.address).trim() !== '') addressParts.push(String(item.address).trim());
+                if (item.city && String(item.city).trim() !== '') addressParts.push(String(item.city).trim());
+                let destinationDisplay = addressParts.join(', ');
+                let hasDestination = destinationDisplay.length > 0;
+
                 html += `
                 <div class="glass-card result-card p-8 flex flex-col gap-6 animate-in ${statusClass}" style="animation-delay: ${index * 0.08}s">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -444,22 +451,34 @@
                     </div>` : ''}
 
                     <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-4 mt-2">
-                        <div class="flex-grow grid grid-cols-1 md:grid-cols-3 gap-3">
-                            <div class="bg-[var(--sub-box-bg)] p-5 rounded-3xl border border-[var(--card-border)]">
-                                <p class="text-xs font-semibold uppercase text-[var(--text-muted-color)] tracking-wider mb-1.5">Courier Partner</p>
-                                <p class="text-base font-bold text-[var(--text-color)] truncate">${courierPartnerDisplay}</p>
-                            </div>
-                            <div class="bg-[var(--sub-box-bg)] p-5 rounded-3xl border border-[var(--card-border)] flex items-center justify-between">
-                                <div class="flex flex-col flex-1 truncate pr-2">
-                                    <p class="text-xs font-semibold uppercase text-[var(--text-muted-color)] tracking-wider mb-1.5">Tracking ID</p>
-                                    <p class="text-base font-bold font-mono text-[var(--text-color)] truncate">${hasTracking ? item.trackingId : '---'}</p>
+                        <div class="flex-grow flex flex-col gap-3">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div class="bg-[var(--sub-box-bg)] p-5 rounded-3xl border border-[var(--card-border)]">
+                                    <p class="text-xs font-semibold uppercase text-[var(--text-muted-color)] tracking-wider mb-1.5">Courier Partner</p>
+                                    <p class="text-base font-bold text-[var(--text-color)] truncate">${courierPartnerDisplay}</p>
                                 </div>
-                                ${hasTracking ? `<i class="fas fa-copy text-xl text-[var(--text-muted-color)] hover:text-[var(--text-color)] transition-colors cursor-pointer p-2" onclick="copyToClipboard('${item.trackingId}')"></i>` : ''}
+                                <div class="bg-[var(--sub-box-bg)] p-5 rounded-3xl border border-[var(--card-border)] flex items-center justify-between">
+                                    <div class="flex flex-col flex-1 truncate pr-2">
+                                        <p class="text-xs font-semibold uppercase text-[var(--text-muted-color)] tracking-wider mb-1.5">Tracking ID</p>
+                                        <p class="text-base font-bold font-mono text-[var(--text-color)] truncate">${hasTracking ? item.trackingId : '---'}</p>
+                                    </div>
+                                    ${hasTracking ? `<i class="fas fa-copy text-xl text-[var(--text-muted-color)] hover:text-[var(--text-color)] transition-colors cursor-pointer p-2" onclick="copyToClipboard('${item.trackingId}')"></i>` : ''}
+                                </div>
+                                <div class="bg-[var(--sub-box-bg)] p-5 rounded-3xl border border-[var(--card-border)]">
+                                    <p class="text-xs font-semibold uppercase text-[var(--text-muted-color)] tracking-wider mb-1.5">${isDispatch ? 'Dispatch Date' : 'Current Status'}</p>
+                                    <p class="text-base font-bold text-[var(--text-color)] truncate">${isDispatch ? (item.dispatchDate || '--') : (item.status || 'Pending')}</p>
+                                </div>
                             </div>
-                            <div class="bg-[var(--sub-box-bg)] p-5 rounded-3xl border border-[var(--card-border)]">
-                                <p class="text-xs font-semibold uppercase text-[var(--text-muted-color)] tracking-wider mb-1.5">${isDispatch ? 'Dispatch Date' : 'Current Status'}</p>
-                                <p class="text-base font-bold text-[var(--text-color)] truncate">${isDispatch ? (item.dispatchDate || '--') : (item.status || 'Pending')}</p>
+                            
+                            ${(hasDestination) ? `
+                            <div class="bg-[var(--sub-box-bg)] p-5 rounded-3xl border border-[var(--card-border)] flex items-start gap-4">
+                                <div class="mt-0.5 text-[var(--text-muted-color)] opacity-60"><i class="fas fa-location-dot text-lg"></i></div>
+                                <div>
+                                    <p class="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted-color)] mb-1.5">Destination</p>
+                                    <p class="text-base font-medium text-[var(--text-color)] leading-relaxed">${destinationDisplay}</p>
+                                </div>
                             </div>
+                            ` : ''}
                         </div>
 
                         ${(isDispatch && courierUrl && hasTracking && !rawStatus.includes('rto')) ? `
