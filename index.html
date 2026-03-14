@@ -24,6 +24,7 @@
             --nav-active-bg: #ffffff;
             --nav-active-text: #000000;
             --sub-box-bg: rgba(28, 28, 30, 0.5);
+            --sticky-col-bg: rgba(35, 35, 37, 0.95);
             
             /* UI Accents */
             --accent-blue: #0a84ff;
@@ -50,6 +51,7 @@
             --nav-active-bg: #1c1c1e;
             --nav-active-text: #ffffff;
             --sub-box-bg: rgba(0, 0, 0, 0.04);
+            --sticky-col-bg: rgba(248, 248, 250, 0.95);
             
             /* Tints */
             --good-tint: rgba(52, 199, 89, 0.15);
@@ -64,6 +66,7 @@
             color: var(--text-color);
             transition: background-color 0.5s ease;
             -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: transparent; /* Remove blue tap highlight on mobile */
         }
 
         .glass {
@@ -80,7 +83,7 @@
             overflow: hidden;
         }
 
-        /* Search Input - Spotlight Design */
+        /* Search Input - Adaptive Spotlight Design */
         .spotlight-input {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -92,22 +95,22 @@
             border-color: rgba(10, 132, 255, 0.5);
             background: var(--card-hover-bg);
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            transform: scale(1.015) translateY(-2px);
+            transform: scale(1.01) translateY(-2px);
         }
 
-        /* Result Box - iOS 26 High Fidelity Pop */
-        .result-card:hover {
-            transform: scale(1.025) translateY(-6px);
-            box-shadow: 0 40px 80px -15px rgba(0,0,0,0.3);
-            z-index: 10;
+        /* Result Box - iOS 26 High Fidelity Pop (Only on devices that support hover) */
+        @media (hover: hover) {
+            .result-card:hover {
+                transform: scale(1.025) translateY(-6px);
+                box-shadow: 0 40px 80px -15px rgba(0,0,0,0.3);
+                z-index: 10;
+            }
+            .result-card.delivered:hover { background-color: rgba(48, 209, 88, 0.18); border-color: rgba(48, 209, 88, 0.4); }
+            .result-card.transit:hover { background-color: rgba(10, 132, 255, 0.18); border-color: rgba(10, 132, 255, 0.4); }
+            .result-card.picked-up:hover { background-color: rgba(255, 159, 10, 0.18); border-color: rgba(255, 159, 10, 0.4); }
+            .result-card.queued:hover { background-color: rgba(255, 159, 10, 0.12); border-color: rgba(255, 159, 10, 0.3); }
+            .result-card.rto:hover { background-color: rgba(255, 69, 58, 0.18); border-color: rgba(255, 69, 58, 0.4); }
         }
-
-        /* Conditional Status Highlights on Hover */
-        .result-card.delivered:hover { background-color: rgba(48, 209, 88, 0.18); border-color: rgba(48, 209, 88, 0.4); }
-        .result-card.transit:hover { background-color: rgba(10, 132, 255, 0.18); border-color: rgba(10, 132, 255, 0.4); }
-        .result-card.picked-up:hover { background-color: rgba(255, 159, 10, 0.18); border-color: rgba(255, 159, 10, 0.4); }
-        .result-card.queued:hover { background-color: rgba(255, 159, 10, 0.12); border-color: rgba(255, 159, 10, 0.3); }
-        .result-card.rto:hover { background-color: rgba(255, 69, 58, 0.18); border-color: rgba(255, 69, 58, 0.4); }
 
         /* Nav Control */
         .nav-pill-container {
@@ -119,12 +122,15 @@
         }
         body.light-mode .nav-pill-container { background: rgba(0,0,0,0.05); }
         .nav-item {
-            padding: 8px 24px;
-            font-size: 0.9rem;
+            padding: 6px 16px;
+            font-size: 0.85rem;
             font-weight: 600;
             border-radius: 999px;
             color: var(--text-muted-color);
             transition: all 0.3s ease;
+        }
+        @media (min-width: 768px) {
+            .nav-item { padding: 8px 24px; font-size: 0.9rem; }
         }
         .nav-item.active {
             background: var(--nav-active-bg);
@@ -136,21 +142,36 @@
         .btn-track {
             background: var(--text-color);
             color: var(--bg-color);
-            padding: 10px 24px;
             border-radius: 12px;
             font-weight: 800;
-            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             transition: all 0.3s ease;
         }
-        .btn-track:hover {
-            transform: scale(1.05);
-            filter: brightness(1.1);
+        @media (hover: hover) {
+            .btn-track:hover {
+                transform: scale(1.05);
+                filter: brightness(1.1);
+            }
+        }
+
+        /* Sticky Table Column for Mobile */
+        .sticky-col {
+            position: sticky;
+            left: 0;
+            background-color: var(--sticky-col-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 10;
+            border-right: 1px solid var(--card-border);
+        }
+        @media (min-width: 768px) {
+            .sticky-col { position: static; background-color: transparent; backdrop-filter: none; border-right: none; }
         }
 
         /* Sorting Icons */
         .sortable { cursor: pointer; user-select: none; transition: background 0.2s; }
+        .sortable:active { background: rgba(255,255,255,0.05); }
         .sort-icon { font-size: 0.7rem; margin-left: 6px; opacity: 0.3; }
         .sort-active .sort-icon { opacity: 1; color: var(--accent-blue); }
 
@@ -166,7 +187,7 @@
         @keyframes pulse-dot { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.3); opacity: 1; } }
         .pulse-dot { animation: pulse-dot 2s infinite ease-in-out; }
 
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.25); border-radius: 10px; }
 
         .hidden { display: none !important; }
@@ -175,85 +196,87 @@
 <body class="h-screen flex flex-col overflow-hidden">
 
     <!-- Header -->
-    <header class="w-full glass z-[60] border-b border-[var(--card-border)] bg-[var(--header-bg)]">
-        <div class="max-w-7xl mx-auto h-20 px-8 flex items-center justify-between">
+    <header class="w-full glass z-[60] border-b border-[var(--card-border)] bg-[var(--header-bg)] flex-shrink-0">
+        <div class="max-w-7xl mx-auto h-16 md:h-20 px-4 md:px-8 flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <span class="text-2xl font-bold tracking-tighter text-[var(--text-color)]">Zell</span>
+                <span class="text-xl md:text-2xl font-bold tracking-tighter text-[var(--text-color)]">Zell</span>
             </div>
 
             <div class="nav-pill-container glass">
                 <button data-tab="search" class="nav-item active">Search</button>
-                <button data-tab="metrics" class="nav-item">Batch Dashboard</button>
+                <button data-tab="metrics" class="nav-item">Dashboard</button>
             </div>
 
-            <button id="theme-toggle" class="w-10 h-10 rounded-full glass border border-[var(--card-border)] flex items-center justify-center hover:bg-[var(--card-hover-bg)] transition-all text-[var(--text-color)]">
-                <i class="fas fa-sun"></i>
+            <button id="theme-toggle" class="w-8 h-8 md:w-10 md:h-10 rounded-full glass border border-[var(--card-border)] flex items-center justify-center active:scale-95 transition-all text-[var(--text-color)]">
+                <i class="fas fa-sun text-sm md:text-base"></i>
             </button>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow overflow-y-auto relative px-8 py-12 custom-scrollbar">
+    <main class="flex-grow overflow-y-auto relative px-4 md:px-8 py-8 md:py-12 custom-scrollbar">
         <div class="max-w-4xl mx-auto">
             
             <!-- SEARCH TAB -->
             <section id="search-section">
-                <div class="w-full max-w-2xl mx-auto mb-16 text-center">
-                    <h2 class="text-5xl font-extrabold tracking-tighter mb-8 text-[var(--text-color)]">Locate Dispatch</h2>
+                <div class="w-full max-w-2xl mx-auto mb-10 md:mb-16 text-center">
+                    <h2 class="text-3xl md:text-5xl font-extrabold tracking-tighter mb-6 md:mb-8 text-[var(--text-color)]">Locate Dispatch</h2>
                     <div class="relative group">
-                        <div class="absolute inset-y-0 left-6 flex items-center pointer-events-none text-[var(--text-muted-color)]">
-                            <i class="fas fa-search text-xl"></i>
+                        <div class="absolute inset-y-0 left-4 md:left-6 flex items-center pointer-events-none text-[var(--text-muted-color)]">
+                            <i class="fas fa-search text-lg md:text-xl"></i>
                         </div>
-                        <input type="text" id="student-id-input" class="spotlight-input glass w-full h-20 pl-16 pr-40 rounded-[1.75rem] text-xl font-medium transition-all" placeholder="Enter Student ID..." autocomplete="off">
-                        <button id="search-btn" class="absolute right-4 top-4 bottom-4 px-10 rounded-2xl bg-[var(--text-color)] text-[var(--bg-color)] font-bold text-lg hover:opacity-90 active:scale-95 transition-all shadow-xl">
+                        <!-- Responsive Input: Smaller height and padding on mobile -->
+                        <input type="text" id="student-id-input" class="spotlight-input glass w-full h-14 md:h-20 pl-12 md:pl-16 pr-24 md:pr-40 rounded-2xl md:rounded-[1.75rem] text-lg md:text-xl font-medium transition-all" placeholder="Student ID..." autocomplete="off">
+                        <!-- Responsive Button: Compact on mobile -->
+                        <button id="search-btn" class="absolute right-2 md:right-4 top-2 md:top-4 bottom-2 md:bottom-4 px-5 md:px-10 rounded-xl md:rounded-2xl bg-[var(--text-color)] text-[var(--bg-color)] font-bold text-sm md:text-lg active:scale-95 transition-all shadow-xl flex items-center justify-center">
                             Locate
                         </button>
                     </div>
                 </div>
 
-                <div id="search-loader" class="hidden flex justify-center py-20">
-                    <div class="w-12 h-12 border-4 border-current border-t-transparent rounded-full animate-spin text-[var(--text-muted-color)]"></div>
+                <div id="search-loader" class="hidden flex justify-center py-16 md:py-20">
+                    <div class="w-10 h-10 md:w-12 md:h-12 border-4 border-current border-t-transparent rounded-full animate-spin text-[var(--text-muted-color)]"></div>
                 </div>
 
-                <div id="search-empty-state" class="flex flex-col items-center py-32 text-center text-[var(--text-muted-color)]">
-                    <i class="fas fa-archive text-8xl mb-6 opacity-40"></i>
-                    <p class="text-xl font-semibold tracking-tight uppercase opacity-70">Powered by ACCA Books Management V3</p>
+                <div id="search-empty-state" class="flex flex-col items-center py-20 md:py-32 text-center text-[var(--text-muted-color)]">
+                    <i class="fas fa-archive text-6xl md:text-8xl mb-4 md:mb-6 opacity-40"></i>
+                    <p class="text-lg md:text-xl font-semibold tracking-tight uppercase opacity-70">Powered by ACCA Books V3</p>
                 </div>
 
-                <div id="search-results" class="flex flex-col gap-6 hidden">
+                <div id="search-results" class="flex flex-col gap-4 md:gap-6 hidden">
                     <!-- JS Populated -->
                 </div>
             </section>
 
             <!-- METRICS TAB -->
             <section id="metrics-section" class="hidden">
-                <div class="flex items-end justify-between mb-10">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 md:mb-10">
                     <div>
-                        <h2 class="text-4xl font-extrabold tracking-tighter text-[var(--text-color)]">Batch-Wise Dashboard</h2>
-                        <p class="text-[var(--text-muted-color)] font-medium mt-1">Operational data at a glance.</p>
+                        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tighter text-[var(--text-color)]">Batch Dashboard</h2>
+                        <p class="text-[var(--text-muted-color)] text-sm md:text-base font-medium mt-1">Operational data at a glance.</p>
                     </div>
-                    <button id="refresh-metrics-btn" class="px-6 py-2.5 glass-card font-bold text-xs uppercase tracking-widest hover:bg-[var(--card-hover-bg)] flex items-center gap-2 text-[var(--text-color)]">
-                        <i class="fas fa-sync-alt"></i> Refresh
+                    <button id="refresh-metrics-btn" class="px-5 md:px-6 py-2 md:py-2.5 glass-card font-bold text-[10px] md:text-xs uppercase tracking-widest active:scale-95 transition-all flex items-center justify-center gap-2 text-[var(--text-color)] w-full sm:w-auto">
+                        <i class="fas fa-sync-alt"></i> Refresh Data
                     </button>
                 </div>
 
-                <div id="metrics-loader" class="hidden py-40 flex justify-center"><div class="w-12 h-12 border-4 border-[var(--accent-blue)] border-t-transparent rounded-full animate-spin"></div></div>
+                <div id="metrics-loader" class="hidden py-32 md:py-40 flex justify-center"><div class="w-10 h-10 md:w-12 md:h-12 border-4 border-[var(--accent-blue)] border-t-transparent rounded-full animate-spin"></div></div>
 
-                <div id="metrics-content" class="hidden flex flex-col gap-10">
-                    <div id="aggregate-totals" class="grid grid-cols-2 md:grid-cols-6 gap-4"></div>
+                <div id="metrics-content" class="hidden flex flex-col gap-6 md:gap-10">
+                    <div id="aggregate-totals" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4"></div>
                     
-                    <div class="glass-card shadow-xl border border-[var(--card-border)]">
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse">
+                    <div class="glass-card shadow-xl border border-[var(--card-border)] relative">
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full text-left border-collapse min-w-[700px]">
                                 <thead>
-                                    <tr class="bg-[var(--sub-box-bg)] border-b border-[var(--card-border)] text-[var(--text-muted-color)] text-xs font-bold uppercase tracking-wider">
-                                        <th class="p-6">Batch Identifier</th>
-                                        <th class="p-6 text-right">Today</th>
-                                        <th class="p-6 text-right">Transit</th>
-                                        <th class="p-6 text-right">Issues</th>
-                                        <th class="p-6 text-right">Out</th>
-                                        <th class="p-6 text-right">Done</th>
-                                        <th class="p-6 text-right sortable group" id="col-delivery-pct">
+                                    <tr class="bg-[var(--sub-box-bg)] border-b border-[var(--card-border)] text-[var(--text-muted-color)] text-[10px] md:text-xs font-bold uppercase tracking-wider">
+                                        <th class="p-4 md:p-6 sticky-col">Batch Identifier</th>
+                                        <th class="p-4 md:p-6 text-right whitespace-nowrap">Today</th>
+                                        <th class="p-4 md:p-6 text-right whitespace-nowrap">Transit</th>
+                                        <th class="p-4 md:p-6 text-right whitespace-nowrap">Issues</th>
+                                        <th class="p-4 md:p-6 text-right whitespace-nowrap">Out</th>
+                                        <th class="p-4 md:p-6 text-right whitespace-nowrap">Done</th>
+                                        <th class="p-4 md:p-6 text-right whitespace-nowrap sortable group" id="col-delivery-pct">
                                             Success % <i class="fas fa-sort sort-icon"></i>
                                         </th>
                                     </tr>
@@ -267,7 +290,8 @@
         </div>
     </main>
 
-    <div id="copy-toast" class="fixed bottom-12 left-1/2 -translate-x-1/2 glass border border-[var(--card-border)] bg-[var(--header-bg)] px-8 py-4 rounded-3xl font-bold shadow-2xl opacity-0 translate-y-8 transition-all duration-500 pointer-events-none z-[100] text-[var(--text-color)]">
+    <!-- Copy Toast -->
+    <div id="copy-toast" class="fixed bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 glass border border-[var(--card-border)] bg-[var(--header-bg)] px-6 md:px-8 py-3 md:py-4 rounded-full md:rounded-3xl font-bold shadow-2xl opacity-0 translate-y-8 transition-all duration-500 pointer-events-none z-[100] text-[var(--text-color)] text-sm md:text-base flex items-center whitespace-nowrap">
         <i class="fas fa-check-circle text-[var(--accent-green)] mr-2"></i> ID Copied
     </div>
 
@@ -303,7 +327,7 @@
 
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('light-mode');
-            themeToggle.innerHTML = document.body.classList.contains('light-mode') ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            themeToggle.innerHTML = document.body.classList.contains('light-mode') ? '<i class="fas fa-moon text-sm md:text-base"></i>' : '<i class="fas fa-sun text-sm md:text-base"></i>';
         });
 
         const formatNumber = (num) => new Intl.NumberFormat('en-US').format(num);
@@ -356,7 +380,7 @@
                 const data = await response.json();
                 if (data && data.success) renderSearchResults(data.results, val);
             } catch (e) {
-                searchResultsContainer.innerHTML = `<div class="glass-card p-12 text-center text-[var(--accent-red)] font-bold text-lg">Database connection error.</div>`;
+                searchResultsContainer.innerHTML = `<div class="glass-card p-8 md:p-12 text-center text-[var(--accent-red)] font-bold text-base md:text-lg mx-4 md:mx-0">Database connection error.</div>`;
             } finally {
                 searchLoader.classList.add('hidden');
                 searchResultsContainer.classList.remove('hidden');
@@ -365,24 +389,24 @@
 
         function renderSearchResults(results, id) {
             if (results.length === 0) {
-                searchResultsContainer.innerHTML = `<div class="glass-card p-12 text-center text-[var(--text-muted-color)] animate-in"><h3 class="text-xl font-bold mb-2">No Records Found</h3><p class="text-base font-medium">ID ${id} not found.</p></div>`;
+                searchResultsContainer.innerHTML = `<div class="glass-card p-8 md:p-12 text-center text-[var(--text-muted-color)] animate-in mx-4 md:mx-0"><h3 class="text-lg md:text-xl font-bold mb-2">No Records Found</h3><p class="text-sm md:text-base font-medium">ID ${id} not found.</p></div>`;
                 return;
             }
 
             const name = results[0].name || "Student";
             
             let html = `
-                <div class="glass-card p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 mb-8 animate-in" style="background: linear-gradient(135deg, var(--card-bg), var(--sub-box-bg))">
-                    <div class="w-20 h-20 rounded-[2rem] bg-[var(--text-color)] text-[var(--bg-color)] flex items-center justify-center text-4xl font-bold shadow-xl">${name.charAt(0)}</div>
-                    <div class="text-center md:text-left">
-                        <h2 class="text-4xl font-extrabold tracking-tight leading-tight text-[var(--text-color)]">${name}</h2>
-                        <div class="flex flex-wrap justify-center md:justify-start items-center gap-4 mt-3">
-                            <span class="px-4 py-1.5 rounded-lg bg-[var(--sub-box-bg)] font-mono text-sm font-semibold border border-[var(--card-border)] tracking-wide text-[var(--text-color)]">ID: ${id}</span>
-                            <span class="text-sm font-semibold text-[var(--text-muted-color)] uppercase tracking-wider">No of Books Dispatched: ${results.length}</span>
+                <div class="glass-card p-6 md:p-10 flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 mb-4 md:mb-8 animate-in" style="background: linear-gradient(135deg, var(--card-bg), var(--sub-box-bg))">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-[1.5rem] md:rounded-[2rem] flex-shrink-0 bg-[var(--text-color)] text-[var(--bg-color)] flex items-center justify-center text-3xl md:text-4xl font-bold shadow-xl">${name.charAt(0)}</div>
+                    <div class="text-center md:text-left flex-grow w-full">
+                        <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight leading-tight text-[var(--text-color)] truncate">${name}</h2>
+                        <div class="flex flex-col sm:flex-row items-center sm:items-center justify-center md:justify-start gap-3 mt-3">
+                            <span class="px-3 md:px-4 py-1 md:py-1.5 rounded-lg bg-[var(--sub-box-bg)] font-mono text-xs md:text-sm font-semibold border border-[var(--card-border)] tracking-wide text-[var(--text-color)]">ID: ${id}</span>
+                            <span class="text-[10px] md:text-sm font-semibold text-[var(--text-muted-color)] uppercase tracking-wider">Books Dispatched: ${results.length}</span>
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col gap-6">
+                <div class="flex flex-col gap-4 md:gap-6">
             `;
 
             results.forEach((item, index) => {
@@ -423,67 +447,67 @@
                 let hasDestination = destinationDisplay.length > 0;
 
                 html += `
-                <div class="glass-card result-card p-8 flex flex-col gap-6 animate-in ${statusClass}" style="animation-delay: ${index * 0.08}s">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                        <div class="flex items-center gap-6">
-                            <div class="w-10 h-10 rounded-xl bg-[var(--sub-box-bg)] flex items-center justify-center font-bold text-sm text-[var(--text-muted-color)] tabular-nums border border-[var(--card-border)]">
+                <div class="glass-card result-card p-5 md:p-8 flex flex-col gap-5 md:gap-6 animate-in ${statusClass}" style="animation-delay: ${index * 0.08}s">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 md:gap-6">
+                        <div class="flex items-center gap-4 md:gap-6 w-full sm:w-auto">
+                            <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[var(--sub-box-bg)] flex-shrink-0 flex items-center justify-center font-bold text-sm md:text-base text-[var(--text-muted-color)] tabular-nums border border-[var(--card-border)]">
                                 ${(index + 1).toString().padStart(2, '0')}
                             </div>
-                            <div>
-                                <h3 class="text-2xl font-bold tracking-tight text-[var(--text-color)]">${item.subject}</h3>
-                                <p class="text-sm font-semibold text-[var(--text-muted-color)] uppercase tracking-wider mt-1">${item.batch}</p>
+                            <div class="overflow-hidden">
+                                <h3 class="text-lg md:text-2xl font-bold tracking-tight text-[var(--text-color)] truncate">${item.subject}</h3>
+                                <p class="text-[10px] md:text-xs font-semibold text-[var(--text-muted-color)] uppercase tracking-wider mt-1 truncate">${item.batch}</p>
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-3 bg-[var(--sub-box-bg)] px-5 py-2.5 rounded-full border border-[var(--card-border)]">
-                            <div class="w-2.5 h-2.5 rounded-full pulse-dot" style="background-color: ${accentColor}; box-shadow: 0 0 12px ${accentColor}"></div>
-                            <span class="text-xs font-bold uppercase tracking-wider" style="color: ${accentColor}">${statusLabel}</span>
+                        <div class="flex items-center gap-2.5 bg-[var(--sub-box-bg)] px-4 md:px-5 py-2 md:py-2.5 rounded-full border border-[var(--card-border)] whitespace-nowrap self-start sm:self-auto">
+                            <div class="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full pulse-dot" style="background-color: ${accentColor}; box-shadow: 0 0 12px ${accentColor}"></div>
+                            <span class="text-[10px] md:text-xs font-bold uppercase tracking-wider" style="color: ${accentColor}">${statusLabel}</span>
                         </div>
                     </div>
 
                     ${(!isDispatch && rawTriageStatus.includes('hold')) ? `
-                    <div class="mt-1 bg-[var(--bad-tint)] border border-[var(--accent-red)] border-opacity-30 p-5 rounded-2xl flex items-start gap-4">
-                        <div class="mt-0.5 text-[var(--accent-red)]"><i class="fas fa-hand-paper text-lg"></i></div>
+                    <div class="mt-1 bg-[var(--bad-tint)] border border-[var(--accent-red)] border-opacity-30 p-4 md:p-5 rounded-2xl flex items-start gap-3 md:gap-4">
+                        <div class="mt-0.5 text-[var(--accent-red)] text-sm md:text-lg"><i class="fas fa-hand-paper"></i></div>
                         <div>
-                            <p class="text-xs font-bold uppercase tracking-wider text-[var(--accent-red)] mb-1">Hold Reason</p>
-                            <p class="text-base font-medium text-[var(--text-color)] italic">"${item.holdComment || 'Awaiting further clarification'}"</p>
+                            <p class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-[var(--accent-red)] mb-1">Hold Reason</p>
+                            <p class="text-sm md:text-base font-medium text-[var(--text-color)] italic">"${item.holdComment || 'Awaiting further clarification'}"</p>
                         </div>
                     </div>` : ''}
 
-                    <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-4 mt-2">
+                    <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 md:gap-4 mt-1 md:mt-2">
                         <div class="flex-grow flex flex-col gap-3">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <div class="bg-[var(--sub-box-bg)] p-5 rounded-3xl border border-[var(--card-border)]">
-                                    <p class="text-xs font-semibold uppercase text-[var(--text-muted-color)] tracking-wider mb-1.5">Courier Partner</p>
-                                    <p class="text-base font-bold text-[var(--text-color)] truncate">${courierPartnerDisplay}</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                                <div class="bg-[var(--sub-box-bg)] p-4 md:p-5 rounded-2xl md:rounded-3xl border border-[var(--card-border)]">
+                                    <p class="text-[10px] md:text-xs font-semibold uppercase text-[var(--text-muted-color)] tracking-wider mb-1 md:mb-1.5">Courier Partner</p>
+                                    <p class="text-sm md:text-base font-bold text-[var(--text-color)] truncate">${courierPartnerDisplay}</p>
                                 </div>
-                                <div class="bg-[var(--sub-box-bg)] p-5 rounded-3xl border border-[var(--card-border)] flex items-center justify-between">
-                                    <div class="flex flex-col flex-1 truncate pr-2">
-                                        <p class="text-xs font-semibold uppercase text-[var(--text-muted-color)] tracking-wider mb-1.5">Tracking ID</p>
-                                        <p class="text-base font-bold font-mono text-[var(--text-color)] truncate">${hasTracking ? item.trackingId : '---'}</p>
+                                <div class="bg-[var(--sub-box-bg)] p-4 md:p-5 rounded-2xl md:rounded-3xl border border-[var(--card-border)] flex items-center justify-between">
+                                    <div class="flex flex-col flex-1 overflow-hidden pr-2">
+                                        <p class="text-[10px] md:text-xs font-semibold uppercase text-[var(--text-muted-color)] tracking-wider mb-1 md:mb-1.5">Tracking ID</p>
+                                        <p class="text-sm md:text-base font-bold font-mono text-[var(--text-color)] truncate">${hasTracking ? item.trackingId : '---'}</p>
                                     </div>
-                                    ${hasTracking ? `<i class="fas fa-copy text-xl text-[var(--text-muted-color)] hover:text-[var(--text-color)] transition-colors cursor-pointer p-2" onclick="copyToClipboard('${item.trackingId}')"></i>` : ''}
+                                    ${hasTracking ? `<i class="fas fa-copy text-lg md:text-xl text-[var(--text-muted-color)] hover:text-[var(--text-color)] transition-colors cursor-pointer p-2 active:scale-90" onclick="copyToClipboard('${item.trackingId}')"></i>` : ''}
                                 </div>
-                                <div class="bg-[var(--sub-box-bg)] p-5 rounded-3xl border border-[var(--card-border)]">
-                                    <p class="text-xs font-semibold uppercase text-[var(--text-muted-color)] tracking-wider mb-1.5">${isDispatch ? 'Dispatch Date' : 'Current Status'}</p>
-                                    <p class="text-base font-bold text-[var(--text-color)] truncate">${isDispatch ? (item.dispatchDate || '--') : (item.status || 'Pending')}</p>
+                                <div class="bg-[var(--sub-box-bg)] p-4 md:p-5 rounded-2xl md:rounded-3xl border border-[var(--card-border)] sm:col-span-2 md:col-span-1">
+                                    <p class="text-[10px] md:text-xs font-semibold uppercase text-[var(--text-muted-color)] tracking-wider mb-1 md:mb-1.5">${isDispatch ? 'Dispatch Date' : 'Current Status'}</p>
+                                    <p class="text-sm md:text-base font-bold text-[var(--text-color)] truncate">${isDispatch ? (item.dispatchDate || '--') : (item.status || 'Pending')}</p>
                                 </div>
                             </div>
                             
                             ${(hasDestination) ? `
-                            <div class="bg-[var(--sub-box-bg)] p-5 rounded-3xl border border-[var(--card-border)] flex items-start gap-4">
-                                <div class="mt-0.5 text-[var(--text-muted-color)] opacity-60"><i class="fas fa-location-dot text-lg"></i></div>
+                            <div class="bg-[var(--sub-box-bg)] p-4 md:p-5 rounded-2xl md:rounded-3xl border border-[var(--card-border)] flex items-start gap-3 md:gap-4">
+                                <div class="mt-0.5 text-[var(--text-muted-color)] opacity-60 text-sm md:text-lg"><i class="fas fa-location-dot"></i></div>
                                 <div>
-                                    <p class="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted-color)] mb-1.5">Destination</p>
-                                    <p class="text-base font-medium text-[var(--text-color)] leading-relaxed">${destinationDisplay}</p>
+                                    <p class="text-[10px] md:text-xs font-semibold uppercase tracking-wider text-[var(--text-muted-color)] mb-1 md:mb-1.5">Destination</p>
+                                    <p class="text-sm md:text-base font-medium text-[var(--text-color)] leading-relaxed">${destinationDisplay}</p>
                                 </div>
                             </div>
                             ` : ''}
                         </div>
 
                         ${(isDispatch && courierUrl && hasTracking && !rawStatus.includes('rto')) ? `
-                        <a href="${courierUrl}" target="_blank" class="btn-track flex items-center justify-center lg:h-auto py-4">
-                            Track
+                        <a href="${courierUrl}" target="_blank" class="btn-track py-3.5 md:py-4 px-6 flex items-center justify-center lg:h-auto mt-2 lg:mt-0 active:scale-95 text-xs md:text-sm shadow-md">
+                            Track <i class="fas fa-external-link-alt ml-2 opacity-70 text-[10px] md:text-xs"></i>
                         </a>` : ''}
                     </div>
                 </div>`;
@@ -535,20 +559,20 @@
             const colorClass = getStatusColorClass(overallPct);
 
             aggregateTotalsContainer.innerHTML = `
-                ${createMetricBox('Daily Queue', t.ordersToday, 'fa-calendar-day')}
+                ${createMetricBox('Queue', t.ordersToday, 'fa-calendar-day')}
                 ${createMetricBox('In Transit', t.inTransit, 'fa-truck-fast', 'text-[var(--accent-blue)]')}
                 ${createMetricBox('Alerts', t.deliveryIssues, 'fa-exclamation-triangle', t.deliveryIssues > 0 ? 'text-[var(--accent-red)]' : '')}
-                ${createMetricBox('Dispatched', t.totalDispatched, 'fa-box')}
-                ${createMetricBox('Delivered', t.totalDelivered, 'fa-check-double', 'text-[var(--accent-green)]')}
-                ${createMetricBox('Success %', overallPct + '%', 'fa-chart-pie', colorClass)}
+                ${createMetricBox('Out', t.totalDispatched, 'fa-box')}
+                ${createMetricBox('Done', t.totalDelivered, 'fa-check-double', 'text-[var(--accent-green)]')}
+                ${createMetricBox('Success', overallPct + '%', 'fa-chart-pie', colorClass)}
             `;
         }
 
         function createMetricBox(label, val, icon, cls='') {
-            return `<div class="glass-card p-6 flex flex-col items-center justify-center text-center gap-1 hover:scale-105 transition-all">
-                <i class="fas ${icon} text-base text-[var(--text-muted-color)] mb-2"></i>
-                <span class="text-3xl font-bold tracking-tight tabular-nums ${cls || 'text-[var(--text-color)]'}">${val}</span>
-                <span class="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted-color)] mt-1">${label}</span>
+            return `<div class="glass-card p-4 md:p-6 flex flex-col items-center justify-center text-center gap-1 active:scale-95 md:hover:scale-105 transition-all">
+                <i class="fas ${icon} text-sm md:text-base text-[var(--text-muted-color)] mb-1 md:mb-2"></i>
+                <span class="text-xl md:text-3xl font-bold tracking-tight tabular-nums ${cls || 'text-[var(--text-color)]'}">${val}</span>
+                <span class="text-[9px] md:text-xs font-semibold uppercase tracking-wider text-[var(--text-muted-color)] md:mt-1">${label}</span>
             </div>`;
         }
 
@@ -558,14 +582,14 @@
                 const colorClass = getStatusColorClass(completionPct);
                 
                 return `
-                <tr class="hover:bg-[var(--sub-box-bg)] transition-colors">
-                    <td class="p-6 font-semibold text-sm tracking-tight text-[var(--text-color)]">${b.batchName}</td>
-                    <td class="p-6 text-right font-semibold tabular-nums text-sm text-[var(--text-color)]">${formatNumber(b.ordersToday)}</td>
-                    <td class="p-6 text-right font-semibold tabular-nums text-sm text-[var(--accent-blue)]">${formatNumber(b.inTransit)}</td>
-                    <td class="p-6 text-right font-bold tabular-nums text-sm ${b.deliveryIssues > 0 ? 'text-[var(--accent-red)]' : 'text-[var(--text-muted-color)] opacity-50'}">${formatNumber(b.deliveryIssues)}</td>
-                    <td class="p-6 text-right font-semibold tabular-nums text-sm text-[var(--text-color)]">${formatNumber(b.totalDispatched)}</td>
-                    <td class="p-6 text-right font-semibold tabular-nums text-sm text-[var(--accent-green)]">${formatNumber(b.totalDelivered)}</td>
-                    <td class="p-6 text-right font-bold tabular-nums text-sm ${colorClass}">${completionPct}%</td>
+                <tr class="hover:bg-[var(--sub-box-bg)] transition-colors active:bg-[var(--card-hover-bg)]">
+                    <td class="p-4 md:p-6 font-semibold text-xs md:text-sm tracking-tight text-[var(--text-color)] sticky-col whitespace-nowrap">${b.batchName}</td>
+                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap">${formatNumber(b.ordersToday)}</td>
+                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-blue)] whitespace-nowrap">${formatNumber(b.inTransit)}</td>
+                    <td class="p-4 md:p-6 text-right font-bold tabular-nums text-xs md:text-sm ${b.deliveryIssues > 0 ? 'text-[var(--accent-red)]' : 'text-[var(--text-muted-color)] opacity-50'} whitespace-nowrap">${formatNumber(b.deliveryIssues)}</td>
+                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap">${formatNumber(b.totalDispatched)}</td>
+                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-green)] whitespace-nowrap">${formatNumber(b.totalDelivered)}</td>
+                    <td class="p-4 md:p-6 text-right font-bold tabular-nums text-xs md:text-sm ${colorClass} whitespace-nowrap">${completionPct}%</td>
                 </tr>
             `}).join('');
         }
