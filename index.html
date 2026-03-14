@@ -66,7 +66,7 @@
             color: var(--text-color);
             transition: background-color 0.5s ease;
             -webkit-font-smoothing: antialiased;
-            -webkit-tap-highlight-color: transparent; /* Remove blue tap highlight on mobile */
+            -webkit-tap-highlight-color: transparent;
         }
 
         .glass {
@@ -83,7 +83,7 @@
             overflow: hidden;
         }
 
-        /* Search Input - Adaptive Spotlight Design */
+        /* Search Input */
         .spotlight-input {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -98,7 +98,7 @@
             transform: scale(1.01) translateY(-2px);
         }
 
-        /* Result Box - iOS 26 High Fidelity Pop (Only on devices that support hover) */
+        /* Result Box - iOS 26 High Fidelity Pop */
         @media (hover: hover) {
             .result-card:hover {
                 transform: scale(1.025) translateY(-6px);
@@ -149,13 +149,10 @@
             transition: all 0.3s ease;
         }
         @media (hover: hover) {
-            .btn-track:hover {
-                transform: scale(1.05);
-                filter: brightness(1.1);
-            }
+            .btn-track:hover { transform: scale(1.05); filter: brightness(1.1); }
         }
 
-        /* Sticky Table Column for Mobile */
+        /* Desktop Table Sticky Col */
         .sticky-col {
             position: sticky;
             left: 0;
@@ -169,6 +166,76 @@
             .sticky-col { position: static; background-color: transparent; backdrop-filter: none; border-right: none; }
         }
 
+        /* --- MOBILE TRANSFORMATION MATRIX (Table -> Cards) --- */
+        @media (max-width: 767px) {
+            .table-container {
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+            }
+            .mobile-table { min-width: 100% !important; }
+            .mobile-table thead { display: none; }
+            .mobile-table tbody { display: flex; flex-direction: column; gap: 1.25rem; }
+            
+            .mobile-table tr {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem 0.5rem;
+                background-color: var(--card-bg);
+                border: 1px solid var(--card-border);
+                border-radius: 1.5rem;
+                padding: 1.25rem;
+            }
+            
+            .mobile-table td {
+                display: flex;
+                flex-direction: column;
+                text-align: left !important;
+                padding: 0 !important;
+                border: none !important;
+                white-space: normal !important;
+            }
+            
+            .mobile-table td::before {
+                content: attr(data-label);
+                font-size: 0.65rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--text-muted-color);
+                margin-bottom: 0.25rem;
+            }
+            
+            /* Batch Name Card Header */
+            .mobile-table td:nth-child(1) {
+                grid-column: 1 / -1;
+                font-size: 1.25rem !important;
+                font-weight: 800 !important;
+                border-bottom: 1px solid var(--card-border) !important;
+                padding-bottom: 0.75rem !important;
+                margin-bottom: -0.25rem;
+                position: static !important;
+                background: transparent !important;
+                backdrop-filter: none !important;
+            }
+            .mobile-table td:nth-child(1)::before { display: none; }
+            
+            /* Success Percentage Pill */
+            .mobile-table td:nth-child(7) {
+                grid-column: 1 / -1;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                background: var(--sub-box-bg);
+                padding: 0.75rem 1rem !important;
+                border-radius: 1rem;
+                margin-top: 0.5rem;
+                border: 1px solid var(--card-border) !important;
+            }
+            .mobile-table td:nth-child(7)::before { margin-bottom: 0; }
+        }
+
         /* Sorting Icons */
         .sortable { cursor: pointer; user-select: none; transition: background 0.2s; }
         .sortable:active { background: rgba(255,255,255,0.05); }
@@ -180,7 +247,7 @@
         .pct-medium { color: var(--accent-amber); }
         .pct-bad { color: var(--accent-red); }
 
-        /* Animation */
+        /* Animations */
         @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-in { animation: slideIn 0.6s cubic-bezier(0.15, 0.83, 0.66, 1) forwards; }
 
@@ -225,9 +292,7 @@
                         <div class="absolute inset-y-0 left-4 md:left-6 flex items-center pointer-events-none text-[var(--text-muted-color)]">
                             <i class="fas fa-search text-lg md:text-xl"></i>
                         </div>
-                        <!-- Responsive Input: Smaller height and padding on mobile -->
                         <input type="text" id="student-id-input" class="spotlight-input glass w-full h-14 md:h-20 pl-12 md:pl-16 pr-24 md:pr-40 rounded-2xl md:rounded-[1.75rem] text-lg md:text-xl font-medium transition-all" placeholder="Student ID..." autocomplete="off">
-                        <!-- Responsive Button: Compact on mobile -->
                         <button id="search-btn" class="absolute right-2 md:right-4 top-2 md:top-4 bottom-2 md:bottom-4 px-5 md:px-10 rounded-xl md:rounded-2xl bg-[var(--text-color)] text-[var(--bg-color)] font-bold text-sm md:text-lg active:scale-95 transition-all shadow-xl flex items-center justify-center">
                             Locate
                         </button>
@@ -265,9 +330,9 @@
                 <div id="metrics-content" class="hidden flex flex-col gap-6 md:gap-10">
                     <div id="aggregate-totals" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4"></div>
                     
-                    <div class="glass-card shadow-xl border border-[var(--card-border)] relative">
-                        <div class="overflow-x-auto custom-scrollbar">
-                            <table class="w-full text-left border-collapse min-w-[700px]">
+                    <div class="glass-card shadow-xl border border-[var(--card-border)] relative table-container">
+                        <div class="overflow-x-auto custom-scrollbar md:overflow-visible">
+                            <table class="w-full text-left border-collapse mobile-table md:min-w-[700px]">
                                 <thead>
                                     <tr class="bg-[var(--sub-box-bg)] border-b border-[var(--card-border)] text-[var(--text-muted-color)] text-[10px] md:text-xs font-bold uppercase tracking-wider">
                                         <th class="p-4 md:p-6 sticky-col">Batch Identifier</th>
@@ -583,13 +648,13 @@
                 
                 return `
                 <tr class="hover:bg-[var(--sub-box-bg)] transition-colors active:bg-[var(--card-hover-bg)]">
-                    <td class="p-4 md:p-6 font-semibold text-xs md:text-sm tracking-tight text-[var(--text-color)] sticky-col whitespace-nowrap">${b.batchName}</td>
-                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap">${formatNumber(b.ordersToday)}</td>
-                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-blue)] whitespace-nowrap">${formatNumber(b.inTransit)}</td>
-                    <td class="p-4 md:p-6 text-right font-bold tabular-nums text-xs md:text-sm ${b.deliveryIssues > 0 ? 'text-[var(--accent-red)]' : 'text-[var(--text-muted-color)] opacity-50'} whitespace-nowrap">${formatNumber(b.deliveryIssues)}</td>
-                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap">${formatNumber(b.totalDispatched)}</td>
-                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-green)] whitespace-nowrap">${formatNumber(b.totalDelivered)}</td>
-                    <td class="p-4 md:p-6 text-right font-bold tabular-nums text-xs md:text-sm ${colorClass} whitespace-nowrap">${completionPct}%</td>
+                    <td class="p-4 md:p-6 font-semibold text-xs md:text-sm tracking-tight text-[var(--text-color)] sticky-col whitespace-nowrap" data-label="Batch Name">${b.batchName}</td>
+                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap" data-label="Today">${formatNumber(b.ordersToday)}</td>
+                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-blue)] whitespace-nowrap" data-label="Transit">${formatNumber(b.inTransit)}</td>
+                    <td class="p-4 md:p-6 text-right font-bold tabular-nums text-xs md:text-sm ${b.deliveryIssues > 0 ? 'text-[var(--accent-red)]' : 'text-[var(--text-muted-color)] opacity-50'} whitespace-nowrap" data-label="Issues">${formatNumber(b.deliveryIssues)}</td>
+                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap" data-label="Out">${formatNumber(b.totalDispatched)}</td>
+                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-green)] whitespace-nowrap" data-label="Done">${formatNumber(b.totalDelivered)}</td>
+                    <td class="p-4 md:p-6 text-right font-bold tabular-nums text-xs md:text-sm ${colorClass} whitespace-nowrap" data-label="Success %">${completionPct}%</td>
                 </tr>
             `}).join('');
         }
