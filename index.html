@@ -255,6 +255,7 @@
         .pulse-dot { animation: pulse-dot 2s infinite ease-in-out; }
 
         ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.25); border-radius: 10px; }
 
         .hidden { display: none !important; }
@@ -263,7 +264,6 @@
 <body class="h-screen flex flex-col overflow-hidden">
 
     <!-- Header -->
-    <!-- Added top padding targeting safe-area-insets to protect against notches/dynamic islands -->
     <header class="w-full glass z-[60] border-b border-[var(--card-border)] bg-[var(--header-bg)] flex-shrink-0" style="padding-top: max(env(safe-area-inset-top), 0.5rem);">
         <div class="max-w-7xl mx-auto h-20 md:h-24 px-5 md:px-8 flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -283,7 +283,7 @@
 
     <!-- Main Content -->
     <main class="flex-grow overflow-y-auto relative px-4 md:px-8 pt-6 pb-10 md:py-12 custom-scrollbar">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-5xl xl:max-w-6xl mx-auto">
             
             <!-- SEARCH TAB -->
             <section id="search-section">
@@ -309,7 +309,7 @@
                     <p class="text-lg md:text-xl font-semibold tracking-tight uppercase opacity-70">Powered by ACCA Books V3</p>
                 </div>
 
-                <div id="search-results" class="flex flex-col gap-4 md:gap-6 hidden">
+                <div id="search-results" class="flex flex-col gap-4 md:gap-6 hidden max-w-4xl mx-auto">
                     <!-- JS Populated -->
                 </div>
             </section>
@@ -332,17 +332,17 @@
                     <div id="aggregate-totals" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4"></div>
                     
                     <div class="glass-card shadow-xl border border-[var(--card-border)] relative table-container">
-                        <div class="overflow-x-auto custom-scrollbar md:overflow-visible">
+                        <div class="overflow-x-auto custom-scrollbar w-full">
                             <table class="w-full text-left border-collapse mobile-table md:min-w-[700px]">
                                 <thead>
                                     <tr class="bg-[var(--sub-box-bg)] border-b border-[var(--card-border)] text-[var(--text-muted-color)] text-[10px] md:text-xs font-bold uppercase tracking-wider">
-                                        <th class="p-4 md:p-6 sticky-col">Batch Identifier</th>
-                                        <th class="p-4 md:p-6 text-right whitespace-nowrap">Today</th>
-                                        <th class="p-4 md:p-6 text-right whitespace-nowrap">Transit</th>
-                                        <th class="p-4 md:p-6 text-right whitespace-nowrap">Issues</th>
-                                        <th class="p-4 md:p-6 text-right whitespace-nowrap">Out</th>
-                                        <th class="p-4 md:p-6 text-right whitespace-nowrap">Done</th>
-                                        <th class="p-4 md:p-6 text-right whitespace-nowrap sortable group" id="col-delivery-pct">
+                                        <th class="p-4 md:px-5 md:py-5 sticky-col">Batch Identifier</th>
+                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Today</th>
+                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Transit</th>
+                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Issues</th>
+                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Out</th>
+                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Done</th>
+                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap sortable group" id="col-delivery-pct">
                                             Success % <i class="fas fa-sort sort-icon"></i>
                                         </th>
                                     </tr>
@@ -649,13 +649,13 @@
                 
                 return `
                 <tr class="hover:bg-[var(--sub-box-bg)] transition-colors active:bg-[var(--card-hover-bg)]">
-                    <td class="p-4 md:p-6 font-semibold text-xs md:text-sm tracking-tight text-[var(--text-color)] sticky-col whitespace-nowrap" data-label="Batch Name">${b.batchName}</td>
-                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap" data-label="Today">${formatNumber(b.ordersToday)}</td>
-                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-blue)] whitespace-nowrap" data-label="Transit">${formatNumber(b.inTransit)}</td>
-                    <td class="p-4 md:p-6 text-right font-bold tabular-nums text-xs md:text-sm ${b.deliveryIssues > 0 ? 'text-[var(--accent-red)]' : 'text-[var(--text-muted-color)] opacity-50'} whitespace-nowrap" data-label="Issues">${formatNumber(b.deliveryIssues)}</td>
-                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap" data-label="Out">${formatNumber(b.totalDispatched)}</td>
-                    <td class="p-4 md:p-6 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-green)] whitespace-nowrap" data-label="Done">${formatNumber(b.totalDelivered)}</td>
-                    <td class="p-4 md:p-6 text-right font-bold tabular-nums text-xs md:text-sm ${colorClass} whitespace-nowrap" data-label="Success %">${completionPct}%</td>
+                    <td class="p-4 md:px-5 md:py-5 font-semibold text-xs md:text-sm tracking-tight text-[var(--text-color)] sticky-col whitespace-nowrap" data-label="Batch Name">${b.batchName}</td>
+                    <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap" data-label="Today">${formatNumber(b.ordersToday)}</td>
+                    <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-blue)] whitespace-nowrap" data-label="Transit">${formatNumber(b.inTransit)}</td>
+                    <td class="p-4 md:px-5 md:py-5 text-right font-bold tabular-nums text-xs md:text-sm ${b.deliveryIssues > 0 ? 'text-[var(--accent-red)]' : 'text-[var(--text-muted-color)] opacity-50'} whitespace-nowrap" data-label="Issues">${formatNumber(b.deliveryIssues)}</td>
+                    <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap" data-label="Out">${formatNumber(b.totalDispatched)}</td>
+                    <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-green)] whitespace-nowrap" data-label="Done">${formatNumber(b.totalDelivered)}</td>
+                    <td class="p-4 md:px-5 md:py-5 text-right font-bold tabular-nums text-xs md:text-sm ${colorClass} whitespace-nowrap" data-label="Success %">${completionPct}%</td>
                 </tr>
             `}).join('');
         }
