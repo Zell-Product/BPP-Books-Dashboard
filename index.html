@@ -455,7 +455,27 @@
 
         function renderSearchResults(results, id) {
             if (results.length === 0) {
-                searchResultsContainer.innerHTML = `<div class="glass-card p-8 md:p-12 text-center text-[var(--text-muted-color)] animate-in mx-4 md:mx-0"><h3 class="text-lg md:text-xl font-bold mb-2">No Records Found</h3><p class="text-sm md:text-base font-medium">ID ${id} not found.</p></div>`;
+                searchResultsContainer.innerHTML = `
+                <div class="glass-card p-8 md:p-12 text-center flex flex-col items-center justify-center animate-in mx-4 md:mx-0">
+                    <div class="w-16 h-16 md:w-20 md:h-20 bg-[var(--sub-box-bg)] rounded-full flex items-center justify-center mb-6 border border-[var(--card-border)] text-[var(--text-muted-color)]">
+                        <i class="fas fa-search-minus text-2xl md:text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-extrabold mb-3 text-[var(--text-color)] tracking-tight">No Records Found</h3>
+                    <p class="text-sm md:text-base font-medium text-[var(--text-muted-color)] max-w-md leading-relaxed">
+                        No BPP books have been dispatched for ID <strong>${id}</strong> yet.
+                    </p>
+                    <div class="mt-6 md:mt-8 p-5 md:p-6 bg-[var(--sub-box-bg)] border border-[var(--card-border)] rounded-2xl max-w-md text-left shadow-sm">
+                        <p class="text-xs md:text-sm font-bold text-[var(--text-color)] mb-2 uppercase tracking-wider">Likely Reasons:</p>
+                        <ul class="text-[11px] md:text-xs text-[var(--text-muted-color)] list-disc pl-5 space-y-1.5 mb-4 font-medium leading-relaxed">
+                            <li>The student has not been sent the BABA form.</li>
+                            <li>The student has received but not yet filled out the BABA form.</li>
+                        </ul>
+                        <div class="flex items-start gap-2 text-[10px] md:text-xs text-[var(--accent-blue)] font-bold bg-blue-500/10 p-3 rounded-xl border border-blue-500/20">
+                            <i class="fas fa-info-circle mt-0.5"></i>
+                            <p>If you believe this is an error, please report it to the Tech Team.</p>
+                        </div>
+                    </div>
+                </div>`;
                 return;
             }
 
