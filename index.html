@@ -26,7 +26,7 @@
             --sub-box-bg: rgba(28, 28, 30, 0.5);
             --sticky-col-bg: rgba(35, 35, 37, 0.95);
             
-            /* UI Accents */
+            /* UI Accents (Bright for Dark Mode) */
             --accent-blue: #0a84ff;
             --accent-green: #30d158;
             --accent-amber: #ff9f0a;
@@ -59,49 +59,67 @@
             --badge-picked-bg: rgba(255, 159, 10, 0.15);
             --badge-queued-bg: rgba(255, 159, 10, 0.1);
             --badge-rto-bg: rgba(255, 69, 58, 0.15);
+
+            /* Standard UI Tints */
+            --good-tint: rgba(48, 209, 88, 0.12);
+            --transit-tint: rgba(10, 132, 255, 0.12);
+            --medium-tint: rgba(255, 159, 10, 0.12);
+            --bad-tint: rgba(255, 69, 58, 0.12);
         }
 
         body.light-mode {
             /* Graphite Theme */
             --bg-color: #f2f2f7;
             --text-color: #1c1c1e;
-            --text-muted-color: #636366;
-            --card-bg: rgba(255, 255, 255, 0.65);
+            --text-muted-color: #5c5c5f; /* Deepened for crisper legibility */
+            --card-bg: rgba(255, 255, 255, 0.8); /* Stronger opacity prevents wallpaper bleed */
             --card-border: rgba(0, 0, 0, 0.08);
-            --card-hover-bg: rgba(255, 255, 255, 0.9);
-            --header-bg: rgba(242, 242, 247, 0.8);
+            --card-hover-bg: rgba(255, 255, 255, 1);
+            --header-bg: rgba(242, 242, 247, 0.85);
             --nav-active-bg: #1c1c1e;
             --nav-active-text: #ffffff;
-            --sub-box-bg: rgba(0, 0, 0, 0.04);
+            --sub-box-bg: rgba(0, 0, 0, 0.035);
             --sticky-col-bg: rgba(248, 248, 250, 0.95);
             
-            /* Tints for Light Mode */
-            --tint-delivered-bg: rgba(52, 199, 89, 0.1);
-            --tint-delivered-border: rgba(52, 199, 89, 0.35);
-            --tint-delivered-hover: rgba(52, 199, 89, 0.18);
+            /* High-Contrast Accents for Light Mode Text Legibility */
+            --accent-blue: #0056d6;
+            --accent-green: #168a2d;
+            --accent-amber: #c25f00;
+            --accent-red: #d91616;
+
+            /* Delicate Pastel Tints for Light Mode (Less muddiness, clean reading) */
+            --tint-delivered-bg: rgba(52, 199, 89, 0.04);
+            --tint-delivered-border: rgba(52, 199, 89, 0.25);
+            --tint-delivered-hover: rgba(52, 199, 89, 0.1);
             
-            --tint-transit-bg: rgba(0, 122, 255, 0.1);
-            --tint-transit-border: rgba(0, 122, 255, 0.35);
-            --tint-transit-hover: rgba(0, 122, 255, 0.18);
+            --tint-transit-bg: rgba(0, 122, 255, 0.04);
+            --tint-transit-border: rgba(0, 122, 255, 0.25);
+            --tint-transit-hover: rgba(0, 122, 255, 0.1);
 
-            --tint-picked-bg: rgba(255, 149, 0, 0.1);
-            --tint-picked-border: rgba(255, 149, 0, 0.35);
-            --tint-picked-hover: rgba(255, 149, 0, 0.18);
+            --tint-picked-bg: rgba(255, 149, 0, 0.04);
+            --tint-picked-border: rgba(255, 149, 0, 0.25);
+            --tint-picked-hover: rgba(255, 149, 0, 0.1);
 
-            --tint-queued-bg: rgba(255, 149, 0, 0.05);
-            --tint-queued-border: rgba(255, 149, 0, 0.2);
-            --tint-queued-hover: rgba(255, 149, 0, 0.12);
+            --tint-queued-bg: rgba(255, 149, 0, 0.02);
+            --tint-queued-border: rgba(255, 149, 0, 0.15);
+            --tint-queued-hover: rgba(255, 149, 0, 0.06);
 
-            --tint-rto-bg: rgba(255, 59, 48, 0.1);
-            --tint-rto-border: rgba(255, 59, 48, 0.35);
-            --tint-rto-hover: rgba(255, 59, 48, 0.18);
+            --tint-rto-bg: rgba(255, 59, 48, 0.04);
+            --tint-rto-border: rgba(255, 59, 48, 0.25);
+            --tint-rto-hover: rgba(255, 59, 48, 0.1);
 
-            /* Prominent Badge Backgrounds */
-            --badge-delivered-bg: rgba(52, 199, 89, 0.2);
-            --badge-transit-bg: rgba(0, 122, 255, 0.2);
-            --badge-picked-bg: rgba(255, 149, 0, 0.2);
-            --badge-queued-bg: rgba(255, 149, 0, 0.12);
-            --badge-rto-bg: rgba(255, 59, 48, 0.2);
+            /* Softer Badge Backgrounds to let the dark text pop */
+            --badge-delivered-bg: rgba(52, 199, 89, 0.12);
+            --badge-transit-bg: rgba(0, 122, 255, 0.12);
+            --badge-picked-bg: rgba(255, 149, 0, 0.12);
+            --badge-queued-bg: rgba(255, 149, 0, 0.08);
+            --badge-rto-bg: rgba(255, 59, 48, 0.12);
+
+            /* UI Tints */
+            --good-tint: rgba(52, 199, 89, 0.08);
+            --transit-tint: rgba(0, 122, 255, 0.08);
+            --medium-tint: rgba(255, 159, 10, 0.08);
+            --bad-tint: rgba(255, 59, 48, 0.08);
         }
 
         body {
@@ -163,7 +181,7 @@
             .result-card.rto:hover { background-color: var(--tint-rto-hover); border-color: rgba(255, 69, 58, 0.5); }
         }
 
-        /* Status Badges */
+        /* Status Badges - Apple Design Standard */
         .status-badge {
             padding: 0.5rem 1.25rem;
             border-radius: 9999px;
@@ -183,30 +201,28 @@
         .status-badge.queued { background-color: var(--badge-queued-bg); border: 1px solid var(--tint-queued-border); color: var(--accent-amber); }
         .status-badge.rto { background-color: var(--badge-rto-bg); border: 1px solid var(--tint-rto-border); color: var(--accent-red); }
 
-        /* Nav Control */
+        /* Nav Control - Cleaned and Centered */
         .nav-pill-container {
             background: rgba(0, 0, 0, 0.1);
-            padding: 4px;
-            border-radius: 999px;
+            padding: 6px;
+            border-radius: 9999px;
             display: inline-flex;
             border: 1px solid var(--card-border);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
         }
-        body.light-mode .nav-pill-container { background: rgba(0,0,0,0.05); }
+        body.light-mode .nav-pill-container { 
+            background: rgba(0,0,0,0.04); 
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        }
         .nav-item {
-            padding: 6px 16px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border-radius: 999px;
             color: var(--text-muted-color);
-            transition: all 0.3s ease;
-        }
-        @media (min-width: 768px) {
-            .nav-item { padding: 8px 24px; font-size: 0.9rem; }
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 9999px;
         }
         .nav-item.active {
             background: var(--nav-active-bg);
             color: var(--nav-active-text);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.2);
         }
 
         /* Buttons */
@@ -334,21 +350,29 @@
 </head>
 <body class="h-screen flex flex-col overflow-hidden">
 
-    <!-- Header -->
+    <!-- Unified Adaptive Header Architecture -->
     <header class="w-full glass z-[60] border-b border-[var(--card-border)] bg-[var(--header-bg)] flex-shrink-0" style="padding-top: max(env(safe-area-inset-top), 0.5rem);">
-        <div class="max-w-7xl mx-auto h-20 md:h-24 px-5 md:px-8 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <span class="text-2xl md:text-3xl font-extrabold tracking-tighter text-[var(--text-color)]">Zell BPP Management</span>
+        <div class="max-w-7xl mx-auto px-5 md:px-8 py-5 md:py-0 md:h-28 flex flex-wrap md:flex-nowrap items-center justify-between gap-y-6 relative">
+            
+            <!-- Left: Dynamic Time-based Greeting -->
+            <div class="flex flex-col justify-center order-1 min-w-[200px]">
+                <span id="dynamic-greeting" class="text-xl md:text-[1.65rem] font-extrabold tracking-tight text-[var(--text-color)] leading-none"></span>
+                <span id="dynamic-date" class="text-[10px] md:text-[11px] font-bold text-[var(--text-muted-color)] mt-1.5 md:mt-2 uppercase tracking-[0.2em]"></span>
             </div>
 
-            <div class="nav-pill-container glass">
-                <button data-tab="search" class="nav-item active">Search</button>
-                <button data-tab="metrics" class="nav-item">Batches</button>
+            <!-- Center: Hero Navigation Segmented Control -->
+            <div class="nav-pill-container order-3 md:order-2 w-full md:w-auto flex justify-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2 shadow-lg">
+                <button data-tab="search" class="nav-item active flex-1 md:flex-none px-6 py-3.5 md:px-14 md:py-3 font-bold text-sm md:text-[0.95rem] tracking-wide text-center">Search</button>
+                <button data-tab="metrics" class="nav-item flex-1 md:flex-none px-6 py-3.5 md:px-14 md:py-3 font-bold text-sm md:text-[0.95rem] tracking-wide text-center">Batches</button>
             </div>
 
-            <button id="theme-toggle" class="w-9 h-9 md:w-11 md:h-11 rounded-full glass border border-[var(--card-border)] flex items-center justify-center active:scale-95 transition-all text-[var(--text-color)]">
-                <i class="fas fa-sun text-sm md:text-base"></i>
-            </button>
+            <!-- Right: Prominent Theme Toggle -->
+            <div class="order-2 md:order-3 flex justify-end min-w-[50px] md:min-w-[200px]">
+                <button id="theme-toggle" class="w-12 h-12 md:w-[3.25rem] md:h-[3.25rem] rounded-full glass border border-[var(--card-border)] flex items-center justify-center active:scale-95 transition-all text-[var(--text-color)] shadow-md">
+                    <i class="fas fa-sun text-lg md:text-xl theme-icon"></i>
+                </button>
+            </div>
+
         </div>
     </header>
 
@@ -377,7 +401,7 @@
 
                 <div id="search-empty-state" class="flex flex-col items-center py-20 md:py-32 text-center text-[var(--text-muted-color)]">
                     <i class="fas fa-archive text-6xl md:text-8xl mb-4 md:mb-6 opacity-40"></i>
-                    <p class="text-lg md:text-xl font-semibold tracking-tight uppercase opacity-70">Real-Time Data from ACCA Books Management V3</p>
+                    <p class="text-lg md:text-xl font-semibold tracking-tight uppercase opacity-70">Real-Time Data from ACCA Books V3</p>
                 </div>
 
                 <div id="search-results" class="flex flex-col gap-4 md:gap-6 hidden max-w-4xl mx-auto">
@@ -435,7 +459,6 @@
     <script>
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCkRas4tHt0UFlIWYcDi8AuewQWFKOGxvCfKrpVMT8BFV8GaT1fptiuN_RBsn4Z1jv/exec"; 
         
-        const themeToggle = document.getElementById('theme-toggle');
         const searchInput = document.getElementById('student-id-input');
         const searchBtn = document.getElementById('search-btn');
         const searchLoader = document.getElementById('search-loader');
@@ -451,6 +474,25 @@
         let cachedBatches = [];
         let sortDirection = -1;
 
+        // --- Dynamic Greeting Engine ---
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            let greeting = 'Good Evening,';
+            if (hour < 12) greeting = 'Good Morning,';
+            else if (hour < 17) greeting = 'Good Afternoon,';
+
+            const options = { month: 'long', day: 'numeric', year: 'numeric' };
+            const dateStr = new Date().toLocaleDateString('en-US', options);
+
+            const greetingEl = document.getElementById('dynamic-greeting');
+            const dateEl = document.getElementById('dynamic-date');
+            
+            if (greetingEl) greetingEl.innerText = greeting;
+            if (dateEl) dateEl.innerText = dateStr;
+        }
+        updateGreeting();
+
+        // --- Navigation Sync ---
         document.querySelectorAll('.nav-item').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const target = e.target.dataset.tab;
@@ -462,9 +504,14 @@
             });
         });
 
+        // --- Theme Sync ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.querySelector('.theme-icon');
+
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('light-mode');
-            themeToggle.innerHTML = document.body.classList.contains('light-mode') ? '<i class="fas fa-moon text-sm md:text-base"></i>' : '<i class="fas fa-sun text-sm md:text-base"></i>';
+            const isLight = document.body.classList.contains('light-mode');
+            themeIcon.className = isLight ? 'fas fa-moon text-lg md:text-xl theme-icon' : 'fas fa-sun text-lg md:text-xl theme-icon';
         });
 
         const formatNumber = (num) => new Intl.NumberFormat('en-US').format(num);
@@ -566,7 +613,6 @@
                 <div class="flex flex-col gap-4 md:gap-6">
             `;
 
-            // Reverse the results array to show the most recent orders first
             results.reverse().forEach((item, index) => {
                 const isDispatch = item.source === 'Dispatch';
                 let statusClass = 'transit';
@@ -594,7 +640,6 @@
                 let courierPartnerDisplay = isDispatch ? item.courier : 'Pending Order';
                 if (rawStatus.includes('rto')) courierPartnerDisplay = 'Not Assigned';
 
-                // Format destination if it exists
                 let addressParts = [];
                 if (item.address && String(item.address).trim() !== '') addressParts.push(String(item.address).trim());
                 if (item.city && String(item.city).trim() !== '') addressParts.push(String(item.city).trim());
