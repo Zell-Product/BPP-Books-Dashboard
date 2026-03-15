@@ -154,11 +154,22 @@
                 z-index: 10;
                 background-color: var(--card-bg);
                 border-right: 1px solid var(--card-border);
+                transition: background-color 0.2s ease;
+            }
+
+            tbody tr:hover .sticky-col {
+                background-color: var(--sub-box-bg);
             }
             
             /* Intersection of Sticky Row and Sticky Col */
             thead th.sticky-col {
                 z-index: 50;
+                background-color: var(--sticky-header-bg);
+            }
+            
+            tfoot td.sticky-col {
+                z-index: 30;
+                background-color: var(--sub-box-bg);
             }
         }
 
@@ -295,8 +306,8 @@
         
         .btn-track { background: var(--text-color); color: var(--bg-color); border-radius: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; transition: transform 0.2s; }
 
-        .sortable { cursor: pointer; user-select: none; transition: background 0.2s; }
-        .sortable:hover { background: rgba(128,128,128,0.1); }
+        .sortable { cursor: pointer; user-select: none; transition: background-color 0.2s ease; }
+        .sortable:hover { background-color: var(--card-hover-bg); }
         .sort-icon { font-size: 0.7rem; margin-left: 6px; opacity: 0.3; }
         .sort-active .sort-icon { opacity: 1; color: var(--accent-blue); }
 
