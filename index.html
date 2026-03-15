@@ -10,123 +10,71 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
         
         :root {
-            /* Dark Mode (Midnight) */
-            --bg-color: #1a1b1e;
-            --text-color: #f0f0f0;
-            --text-muted-color: #9a9a9e;
-            --card-bg: rgba(44, 44, 46, 0.6);
-            --card-border: rgba(255, 255, 255, 0.12);
-            --card-hover-bg: rgba(60, 60, 64, 0.7);
-            --header-bg: rgba(28, 28, 30, 0.8);
-            --nav-active-bg: #ffffff;
-            --nav-active-text: #000000;
-            --sub-box-bg: rgba(28, 28, 30, 0.5);
-            --sticky-col-bg: rgba(35, 35, 37, 0.95);
+            --safe-top: max(env(safe-area-inset-top), 16px);
             
-            /* UI Accents (Bright for Dark Mode) */
+            /* Dark Mode Core */
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --text-muted-color: #9a9a9e;
+            --card-bg: #1e1e1e; /* Solid background prevents text bleed on scroll */
+            --card-border: #333333;
+            --card-hover-bg: #2a2a2a;
+            --header-bg: rgba(18, 18, 18, 0.85);
+            --nav-active-bg: #333333;
+            --nav-active-text: #ffffff;
+            --sub-box-bg: #181818;
+            --sticky-header-bg: #1e1e1e;
+            
+            /* Accents */
             --accent-blue: #0a84ff;
             --accent-green: #30d158;
             --accent-amber: #ff9f0a;
             --accent-red: #ff453a;
 
-            /* Glass Card Base Tints (Always Visible) */
-            --tint-delivered-bg: rgba(48, 209, 88, 0.06);
-            --tint-delivered-border: rgba(48, 209, 88, 0.3);
-            --tint-delivered-hover: rgba(48, 209, 88, 0.12);
-            
-            --tint-transit-bg: rgba(10, 132, 255, 0.06);
-            --tint-transit-border: rgba(10, 132, 255, 0.3);
-            --tint-transit-hover: rgba(10, 132, 255, 0.12);
-
-            --tint-picked-bg: rgba(255, 159, 10, 0.06);
-            --tint-picked-border: rgba(255, 159, 10, 0.3);
-            --tint-picked-hover: rgba(255, 159, 10, 0.12);
-
-            --tint-queued-bg: rgba(255, 159, 10, 0.03);
-            --tint-queued-border: rgba(255, 159, 10, 0.15);
-            --tint-queued-hover: rgba(255, 159, 10, 0.08);
-
-            --tint-rto-bg: rgba(255, 69, 58, 0.06);
-            --tint-rto-border: rgba(255, 69, 58, 0.3);
-            --tint-rto-hover: rgba(255, 69, 58, 0.12);
-
-            /* Prominent Badge Backgrounds */
+            /* Tints */
             --badge-delivered-bg: rgba(48, 209, 88, 0.15);
             --badge-transit-bg: rgba(10, 132, 255, 0.15);
             --badge-picked-bg: rgba(255, 159, 10, 0.15);
             --badge-queued-bg: rgba(255, 159, 10, 0.1);
             --badge-rto-bg: rgba(255, 69, 58, 0.15);
-
-            /* Standard UI Tints */
-            --good-tint: rgba(48, 209, 88, 0.12);
-            --transit-tint: rgba(10, 132, 255, 0.12);
-            --medium-tint: rgba(255, 159, 10, 0.12);
-            --bad-tint: rgba(255, 69, 58, 0.12);
         }
 
         body.light-mode {
-            /* Graphite Theme */
-            --bg-color: #f2f2f7;
-            --text-color: #1c1c1e;
-            --text-muted-color: #5c5c5f; /* Deepened for crisper legibility */
-            --card-bg: rgba(255, 255, 255, 0.8); /* Stronger opacity prevents wallpaper bleed */
-            --card-border: rgba(0, 0, 0, 0.08);
-            --card-hover-bg: rgba(255, 255, 255, 1);
-            --header-bg: rgba(242, 242, 247, 0.85);
-            --nav-active-bg: #1c1c1e;
-            --nav-active-text: #ffffff;
-            --sub-box-bg: rgba(0, 0, 0, 0.035);
-            --sticky-col-bg: rgba(248, 248, 250, 0.95);
+            /* Light Mode Core */
+            --bg-color: #f5f5f7;
+            --text-color: #1d1d1f;
+            --text-muted-color: #5c5c5f;
+            --card-bg: #ffffff; 
+            --card-border: #d2d2d7;
+            --card-hover-bg: #f0f0f0;
+            --header-bg: rgba(245, 245, 247, 0.9);
+            --nav-active-bg: #ffffff;
+            --nav-active-text: #1d1d1f;
+            --sub-box-bg: #f9f9f9;
+            --sticky-header-bg: #ffffff;
             
-            /* High-Contrast Accents for Light Mode Text Legibility */
+            /* Accents */
             --accent-blue: #0056d6;
             --accent-green: #168a2d;
             --accent-amber: #c25f00;
             --accent-red: #d91616;
 
-            /* Delicate Pastel Tints for Light Mode (Less muddiness, clean reading) */
-            --tint-delivered-bg: rgba(52, 199, 89, 0.04);
-            --tint-delivered-border: rgba(52, 199, 89, 0.25);
-            --tint-delivered-hover: rgba(52, 199, 89, 0.1);
-            
-            --tint-transit-bg: rgba(0, 122, 255, 0.04);
-            --tint-transit-border: rgba(0, 122, 255, 0.25);
-            --tint-transit-hover: rgba(0, 122, 255, 0.1);
-
-            --tint-picked-bg: rgba(255, 149, 0, 0.04);
-            --tint-picked-border: rgba(255, 149, 0, 0.25);
-            --tint-picked-hover: rgba(255, 149, 0, 0.1);
-
-            --tint-queued-bg: rgba(255, 149, 0, 0.02);
-            --tint-queued-border: rgba(255, 149, 0, 0.15);
-            --tint-queued-hover: rgba(255, 149, 0, 0.06);
-
-            --tint-rto-bg: rgba(255, 59, 48, 0.04);
-            --tint-rto-border: rgba(255, 59, 48, 0.25);
-            --tint-rto-hover: rgba(255, 59, 48, 0.1);
-
-            /* Softer Badge Backgrounds to let the dark text pop */
+            /* Tints */
             --badge-delivered-bg: rgba(52, 199, 89, 0.12);
             --badge-transit-bg: rgba(0, 122, 255, 0.12);
             --badge-picked-bg: rgba(255, 149, 0, 0.12);
             --badge-queued-bg: rgba(255, 149, 0, 0.08);
             --badge-rto-bg: rgba(255, 59, 48, 0.12);
-
-            /* UI Tints */
-            --good-tint: rgba(52, 199, 89, 0.08);
-            --transit-tint: rgba(0, 122, 255, 0.08);
-            --medium-tint: rgba(255, 159, 10, 0.08);
-            --bad-tint: rgba(255, 59, 48, 0.08);
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            transition: background-color 0.5s ease;
+            transition: background-color 0.4s ease;
             -webkit-font-smoothing: antialiased;
             -webkit-tap-highlight-color: transparent;
         }
@@ -140,130 +88,113 @@
             background-color: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 1.5rem;
-            transition: all 0.4s cubic-bezier(0.15, 0.83, 0.66, 1);
-            position: relative;
-            overflow: hidden;
         }
 
-        /* Search Input */
-        .spotlight-input {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-color);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        /* --- Header Shrink Architecture --- */
+        #main-header {
+            height: calc(110px + var(--safe-top));
+            transition: height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
         }
-        .spotlight-input:focus {
-            outline: none;
-            border-color: rgba(10, 132, 255, 0.5);
-            background: var(--card-hover-bg);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            transform: scale(1.01) translateY(-2px);
+        body.is-scrolled #main-header {
+            height: calc(75px + var(--safe-top));
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-
-        /* Ambient Glass Status Tints (Always applied) */
-        .result-card.delivered { background-color: var(--tint-delivered-bg); border-color: var(--tint-delivered-border); }
-        .result-card.transit { background-color: var(--tint-transit-bg); border-color: var(--tint-transit-border); }
-        .result-card.picked-up { background-color: var(--tint-picked-bg); border-color: var(--tint-picked-border); }
-        .result-card.queued { background-color: var(--tint-queued-bg); border-color: var(--tint-queued-border); }
-        .result-card.rto { background-color: var(--tint-rto-bg); border-color: var(--tint-rto-border); }
-
-        /* Result Box - Hover Intensification */
-        @media (hover: hover) {
-            .result-card:hover {
-                transform: scale(1.02) translateY(-4px);
-                box-shadow: 0 30px 70px -15px rgba(0,0,0,0.3);
-                z-index: 10;
-            }
-            .result-card.delivered:hover { background-color: var(--tint-delivered-hover); border-color: rgba(48, 209, 88, 0.5); }
-            .result-card.transit:hover { background-color: var(--tint-transit-hover); border-color: rgba(10, 132, 255, 0.5); }
-            .result-card.picked-up:hover { background-color: var(--tint-picked-hover); border-color: rgba(255, 159, 10, 0.5); }
-            .result-card.queued:hover { background-color: var(--tint-queued-hover); border-color: rgba(255, 159, 10, 0.3); }
-            .result-card.rto:hover { background-color: var(--tint-rto-hover); border-color: rgba(255, 69, 58, 0.5); }
+        
+        .greeting-container {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        body.is-scrolled .greeting-container {
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
         }
 
-        /* Status Badges - Apple Design Standard */
-        .status-badge {
-            padding: 0.5rem 1.25rem;
-            border-radius: 9999px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+        #nav-wrapper {
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-        .status-badge.delivered { background-color: var(--badge-delivered-bg); border: 1px solid var(--tint-delivered-border); color: var(--accent-green); }
-        .status-badge.transit { background-color: var(--badge-transit-bg); border: 1px solid var(--tint-transit-border); color: var(--accent-blue); }
-        .status-badge.picked-up { background-color: var(--badge-picked-bg); border: 1px solid var(--tint-picked-border); color: var(--accent-amber); }
-        .status-badge.queued { background-color: var(--badge-queued-bg); border: 1px solid var(--tint-queued-border); color: var(--accent-amber); }
-        .status-badge.rto { background-color: var(--badge-rto-bg); border: 1px solid var(--tint-rto-border); color: var(--accent-red); }
+        body.is-scrolled #nav-wrapper {
+            transform: translateX(-50%) scale(0.9);
+        }
 
-        /* Nav Control - Cleaned and Centered */
+        /* --- Navigation Pill Styles --- */
         .nav-pill-container {
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.05);
             padding: 6px;
             border-radius: 9999px;
             display: inline-flex;
             border: 1px solid var(--card-border);
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
         }
         body.light-mode .nav-pill-container { 
             background: rgba(0,0,0,0.04); 
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
         .nav-item {
             color: var(--text-muted-color);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border-radius: 9999px;
+            transition: all 0.2s ease;
         }
         .nav-item.active {
             background: var(--nav-active-bg);
             color: var(--nav-active-text);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
-        /* Buttons */
-        .btn-track {
-            background: var(--text-color);
-            color: var(--bg-color);
-            border-radius: 12px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            transition: all 0.3s ease;
-        }
-        @media (hover: hover) {
-            .btn-track:hover { transform: scale(1.05); filter: brightness(1.1); }
+        /* Page Content Buffer */
+        main {
+            margin-top: calc(120px + var(--safe-top));
         }
 
-        /* Desktop Table Sticky Col */
-        .sticky-col {
-            position: sticky;
-            left: 0;
-            background-color: var(--sticky-col-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 10;
-            border-right: 1px solid var(--card-border);
+        /* --- Flawless Native Table Scroll (Desktop) --- */
+        .table-scroll-container {
+            width: 100%;
+            overflow-x: auto;
         }
+        
         @media (min-width: 768px) {
-            .sticky-col { position: static; background-color: transparent; backdrop-filter: none; border-right: none; }
+            .table-scroll-container {
+                max-height: 65vh; /* Creates the internal scroll window */
+                overflow-y: auto;
+            }
+            
+            /* True Sticky Header: Sticks to the top of the container, NOT the window */
+            thead th {
+                position: sticky;
+                top: 0;
+                z-index: 40;
+                background-color: var(--sticky-header-bg); /* Solid bg prevents text bleed */
+                border-bottom: 1px solid var(--card-border);
+            }
+            
+            .sticky-col {
+                position: sticky;
+                left: 0;
+                z-index: 10;
+                background-color: var(--card-bg);
+                border-right: 1px solid var(--card-border);
+            }
+            
+            /* Intersection of Sticky Row and Sticky Col */
+            thead th.sticky-col {
+                z-index: 50;
+            }
         }
 
-        /* --- MOBILE TRANSFORMATION MATRIX (Table -> Cards) --- */
+        /* The footer flows naturally at the bottom of the data */
+        tfoot td {
+            background-color: var(--sub-box-bg);
+            border-top: 2px solid var(--card-border) !important;
+            border-bottom: none !important;
+            font-weight: 900;
+        }
+
+        /* --- Mobile Responsive Matrix --- */
         @media (max-width: 767px) {
-            .table-container {
-                background: transparent !important;
-                border: none !important;
-                box-shadow: none !important;
-                border-radius: 0 !important;
-            }
-            .mobile-table { min-width: 100% !important; }
+            main { margin-top: calc(130px + var(--safe-top)); }
+            body.is-scrolled #nav-wrapper { transform: translateX(-50%) scale(0.95); margin-bottom: -5px; }
+
+            .table-scroll-container { overflow-y: visible; max-height: none; }
+            .mobile-table { min-width: 100% !important; border-collapse: separate; border-spacing: 0 1.25rem; }
             .mobile-table thead { display: none; }
-            .mobile-table tbody { display: flex; flex-direction: column; gap: 1.25rem; }
+            .mobile-table tbody { display: block; }
             
             .mobile-table tr {
                 display: grid;
@@ -273,6 +204,7 @@
                 border: 1px solid var(--card-border);
                 border-radius: 1.5rem;
                 padding: 1.25rem;
+                margin-bottom: 1.25rem;
             }
             
             .mobile-table td {
@@ -281,7 +213,6 @@
                 text-align: left !important;
                 padding: 0 !important;
                 border: none !important;
-                white-space: normal !important;
             }
             
             .mobile-table td::before {
@@ -294,23 +225,19 @@
                 margin-bottom: 0.25rem;
             }
             
-            /* Batch Name Card Header - Improved Line Height */
+            /* Legible, spacious Mobile Batch Title */
             .mobile-table td:nth-child(1) {
                 grid-column: 1 / -1;
-                font-size: 1.25rem !important;
+                font-size: 1.35rem !important;
                 font-weight: 800 !important;
-                line-height: 1.4 !important;
+                line-height: 1.6 !important;
                 border-bottom: 1px solid var(--card-border) !important;
-                padding-bottom: 0.75rem !important;
-                margin-bottom: -0.25rem;
-                position: static !important;
-                background: transparent !important;
-                backdrop-filter: none !important;
+                padding-bottom: 1.25rem !important;
+                margin-bottom: 0.5rem !important;
             }
             .mobile-table td:nth-child(1)::before { display: none; }
             
-            /* Success Percentage Pill */
-            .mobile-table td:nth-child(7) {
+            .mobile-table td:nth-child(9) {
                 grid-column: 1 / -1;
                 flex-direction: row;
                 align-items: center;
@@ -321,137 +248,169 @@
                 margin-top: 0.5rem;
                 border: 1px solid var(--card-border) !important;
             }
-            .mobile-table td:nth-child(7)::before { margin-bottom: 0; }
+            .mobile-table td:nth-child(9)::before { margin-bottom: 0; }
+
+            .mobile-table tfoot { display: block; margin-top: 1rem; }
+            .mobile-table tfoot tr {
+                background: var(--sub-box-bg);
+                border: 2px solid var(--accent-blue);
+                border-radius: 1.5rem;
+            }
         }
 
-        /* Sorting Icons */
+        /* --- Search Input & Interactive Elements --- */
+        .spotlight-input {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .spotlight-input:focus {
+            outline: none; border-color: var(--accent-blue);
+            background: var(--card-hover-bg);
+        }
+
+        .status-badge {
+            padding: 0.5rem 1.25rem; border-radius: 9999px; display: flex; align-items: center; gap: 0.5rem;
+            font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .status-badge.delivered { background-color: var(--badge-delivered-bg); color: var(--accent-green); }
+        .status-badge.transit { background-color: var(--badge-transit-bg); color: var(--accent-blue); }
+        .status-badge.picked-up { background-color: var(--badge-picked-bg); color: var(--accent-amber); }
+        .status-badge.queued { background-color: var(--badge-queued-bg); color: var(--accent-amber); }
+        .status-badge.rto { background-color: var(--badge-rto-bg); color: var(--accent-red); }
+        
+        .btn-track { background: var(--text-color); color: var(--bg-color); border-radius: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; transition: transform 0.2s; }
+        .btn-track:hover { transform: scale(1.05); }
+
         .sortable { cursor: pointer; user-select: none; transition: background 0.2s; }
-        .sortable:active { background: rgba(255,255,255,0.05); }
+        .sortable:hover { background: rgba(128,128,128,0.1); }
         .sort-icon { font-size: 0.7rem; margin-left: 6px; opacity: 0.3; }
         .sort-active .sort-icon { opacity: 1; color: var(--accent-blue); }
 
-        /* Percent Colors */
-        .pct-good { color: var(--accent-green); }
-        .pct-medium { color: var(--accent-amber); }
-        .pct-bad { color: var(--accent-red); }
-
-        /* Animations */
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-in { animation: slideIn 0.6s cubic-bezier(0.15, 0.83, 0.66, 1) forwards; }
-
+        @keyframes slideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-in { animation: slideIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         @keyframes pulse-dot { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.3); opacity: 1; } }
         .pulse-dot { animation: pulse-dot 2s infinite ease-in-out; }
 
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.25); border-radius: 10px; }
-
+        ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 10px; }
         .hidden { display: none !important; }
     </style>
 </head>
-<body class="h-screen flex flex-col overflow-hidden">
+<body class="antialiased min-h-screen relative">
 
-    <!-- Unified Adaptive Header Architecture -->
-    <!-- Increased safe area inset top padding for deeper breathing room -->
-    <header class="w-full glass z-[60] border-b border-[var(--card-border)] bg-[var(--header-bg)] flex-shrink-0" style="padding-top: max(env(safe-area-inset-top), 1.5rem);">
-        <!-- Increased top padding and vertical gap to separate items on mobile -->
-        <div class="max-w-7xl mx-auto px-5 md:px-8 pt-6 pb-5 md:py-0 md:h-28 flex flex-wrap md:flex-nowrap items-center justify-between gap-y-8 relative">
+    <!-- Fluid Apple Header Architecture -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 glass border-b border-[var(--card-border)]">
+        <div class="w-full h-full relative max-w-7xl mx-auto px-4 md:px-8">
             
-            <!-- Left: Dynamic Time-based Greeting -->
-            <div class="flex flex-col justify-center order-1 min-w-[200px]">
-                <span id="dynamic-greeting" class="text-xl md:text-[1.65rem] font-extrabold tracking-tight text-[var(--text-color)] leading-none"></span>
-                <span id="dynamic-date" class="text-[10px] md:text-[11px] font-bold text-[var(--text-muted-color)] mt-1.5 md:mt-2 uppercase tracking-[0.2em]"></span>
+            <!-- Left: Greeting -->
+            <div class="greeting-container absolute left-4 md:left-8 top-[45%] -translate-y-1/2 flex flex-col justify-center">
+                <span id="dynamic-greeting" class="text-xl md:text-2xl font-extrabold tracking-tight text-[var(--text-color)]"></span>
+                <span id="dynamic-date" class="text-[10px] md:text-[11px] font-bold text-[var(--text-muted-color)] mt-1 uppercase tracking-widest"></span>
             </div>
 
-            <!-- Center: Hero Navigation Segmented Control -->
-            <div class="nav-pill-container order-3 md:order-2 w-full md:w-auto flex justify-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2 shadow-lg">
-                <button data-tab="search" class="nav-item active flex-1 md:flex-none px-6 py-3.5 md:px-14 md:py-3 font-bold text-sm md:text-[0.95rem] tracking-wide text-center">Search</button>
-                <button data-tab="metrics" class="nav-item flex-1 md:flex-none px-6 py-3.5 md:px-14 md:py-3 font-bold text-sm md:text-[0.95rem] tracking-wide text-center">Batches</button>
+            <!-- Center: Nav Pills -->
+            <div id="nav-wrapper" class="absolute bottom-4 md:bottom-auto md:top-1/2 md:-translate-y-1/2 left-1/2 -translate-x-1/2 w-[90%] md:w-auto flex justify-center">
+                <div class="nav-pill-container w-full md:w-auto flex">
+                    <button data-tab="search" class="nav-item active flex-1 md:flex-none px-6 py-3 md:py-2.5 md:px-14 font-bold text-sm md:text-[0.95rem]">Search</button>
+                    <button data-tab="metrics" class="nav-item flex-1 md:flex-none px-6 py-3 md:py-2.5 md:px-14 font-bold text-sm md:text-[0.95rem]">Batches</button>
+                </div>
             </div>
 
-            <!-- Right: Prominent Theme Toggle -->
-            <div class="order-2 md:order-3 flex justify-end min-w-[50px] md:min-w-[200px]">
-                <button id="theme-toggle" class="w-12 h-12 md:w-[3.25rem] md:h-[3.25rem] rounded-full glass border border-[var(--card-border)] flex items-center justify-center active:scale-95 transition-all text-[var(--text-color)] shadow-md">
-                    <i class="fas fa-sun text-lg md:text-xl theme-icon"></i>
-                </button>
-            </div>
-
+            <!-- Right: Theme Toggle -->
+            <button id="theme-toggle" class="absolute top-[35%] md:top-1/2 -translate-y-1/2 right-4 md:right-8 w-10 h-10 md:w-12 md:h-12 rounded-full glass border border-[var(--card-border)] flex items-center justify-center text-[var(--text-color)] shadow-sm">
+                <i class="fas fa-sun text-sm md:text-lg theme-icon"></i>
+            </button>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow overflow-y-auto relative px-4 md:px-8 pt-6 pb-10 md:py-12 custom-scrollbar">
-        <div class="max-w-5xl xl:max-w-6xl mx-auto">
+    <main id="main-content" class="relative px-4 md:px-8 pb-16 max-w-5xl xl:max-w-[85rem] mx-auto">
             
-            <!-- SEARCH TAB -->
-            <section id="search-section">
-                <div class="w-full max-w-2xl mx-auto mb-10 md:mb-16 text-center">
-                    <h2 class="text-3xl md:text-5xl font-extrabold tracking-tighter mb-6 md:mb-8 text-[var(--text-color)]">Track Dispatch</h2>
-                    <div class="relative group">
-                        <div class="absolute inset-y-0 left-4 md:left-6 flex items-center pointer-events-none text-[var(--text-muted-color)]">
-                            <i class="fas fa-search text-lg md:text-xl"></i>
-                        </div>
-                        <input type="text" id="student-id-input" class="spotlight-input glass w-full h-14 md:h-20 pl-12 md:pl-16 pr-24 md:pr-40 rounded-2xl md:rounded-[1.75rem] text-lg md:text-xl font-medium transition-all" placeholder="Student ID..." autocomplete="off">
-                        <button id="search-btn" class="absolute right-2 md:right-4 top-2 md:top-4 bottom-2 md:bottom-4 px-5 md:px-10 rounded-xl md:rounded-2xl bg-[var(--text-color)] text-[var(--bg-color)] font-bold text-sm md:text-lg active:scale-95 transition-all shadow-xl flex items-center justify-center">
-                            Locate
-                        </button>
+        <!-- SEARCH TAB -->
+        <section id="search-section">
+            <div class="w-full max-w-2xl mx-auto mb-10 md:mb-16 text-center">
+                <h2 class="text-3xl md:text-5xl font-extrabold tracking-tighter mb-6 md:mb-8 text-[var(--text-color)]">Track Dispatch</h2>
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-4 md:left-6 flex items-center pointer-events-none text-[var(--text-muted-color)]">
+                        <i class="fas fa-search text-lg md:text-xl"></i>
                     </div>
+                    <input type="text" id="student-id-input" class="spotlight-input w-full h-14 md:h-20 pl-12 md:pl-16 pr-24 md:pr-40 rounded-2xl md:rounded-[1.75rem] text-lg md:text-xl font-medium transition-all" placeholder="Student ID..." autocomplete="off">
+                    <button id="search-btn" class="absolute right-2 md:right-4 top-2 md:top-4 bottom-2 md:bottom-4 px-5 md:px-10 rounded-xl md:rounded-2xl bg-[var(--text-color)] text-[var(--bg-color)] font-bold text-sm md:text-lg active:scale-95 transition-all shadow-md flex items-center justify-center">
+                        Locate
+                    </button>
                 </div>
+            </div>
 
-                <div id="search-loader" class="hidden flex justify-center py-16 md:py-20">
-                    <div class="w-10 h-10 md:w-12 md:h-12 border-4 border-current border-t-transparent rounded-full animate-spin text-[var(--text-muted-color)]"></div>
-                </div>
+            <div id="search-loader" class="hidden flex justify-center py-16 md:py-20">
+                <div class="w-10 h-10 md:w-12 md:h-12 border-4 border-current border-t-transparent rounded-full animate-spin text-[var(--text-muted-color)]"></div>
+            </div>
 
-                <div id="search-empty-state" class="flex flex-col items-center py-20 md:py-32 text-center text-[var(--text-muted-color)]">
-                    <i class="fas fa-archive text-6xl md:text-8xl mb-4 md:mb-6 opacity-40"></i>
-                    <p class="text-lg md:text-xl font-semibold tracking-tight uppercase opacity-70">Real-Time Data from ACCA Books V3</p>
-                </div>
+            <div id="search-empty-state" class="flex flex-col items-center py-20 md:py-32 text-center text-[var(--text-muted-color)]">
+                <i class="fas fa-archive text-6xl md:text-8xl mb-4 md:mb-6 opacity-40"></i>
+                <p class="text-lg md:text-xl font-semibold tracking-tight uppercase opacity-70">Real-Time Data from ACCA Books V3</p>
+            </div>
 
-                <div id="search-results" class="flex flex-col gap-4 md:gap-6 hidden max-w-4xl mx-auto">
-                    <!-- JS Populated -->
-                </div>
-            </section>
+            <div id="search-results" class="flex flex-col gap-4 md:gap-6 hidden max-w-4xl mx-auto">
+                <!-- JS Populated -->
+            </div>
+        </section>
 
-            <!-- METRICS TAB -->
-            <section id="metrics-section" class="hidden">
-                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 md:mb-10">
+        <!-- METRICS TAB -->
+        <section id="metrics-section" class="hidden">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-6 md:mb-8">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-6">
                     <div>
                         <h2 class="text-3xl md:text-4xl font-extrabold tracking-tighter text-[var(--text-color)]">Batch Dashboard</h2>
                         <p class="text-[var(--text-muted-color)] text-sm md:text-base font-medium mt-1">Operational data at a glance.</p>
                     </div>
-                    <button id="refresh-metrics-btn" class="px-5 md:px-6 py-2 md:py-2.5 glass-card font-bold text-[10px] md:text-xs uppercase tracking-widest active:scale-95 transition-all flex items-center justify-center gap-2 text-[var(--text-color)] w-full sm:w-auto">
-                        <i class="fas fa-sync-alt"></i> Refresh Data
-                    </button>
-                </div>
-
-                <div id="metrics-loader" class="hidden py-32 md:py-40 flex justify-center"><div class="w-10 h-10 md:w-12 md:h-12 border-4 border-[var(--accent-blue)] border-t-transparent rounded-full animate-spin"></div></div>
-
-                <div id="metrics-content" class="hidden flex flex-col gap-6 md:gap-10">
-                    <div id="aggregate-totals" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4"></div>
                     
-                    <div class="glass-card shadow-xl border border-[var(--card-border)] relative table-container">
-                        <div class="overflow-x-auto custom-scrollbar w-full">
-                            <table class="w-full text-left border-collapse mobile-table md:min-w-[800px]">
-                                <thead>
-                                    <tr class="bg-[var(--sub-box-bg)] border-b border-[var(--card-border)] text-[var(--text-muted-color)] text-[10px] md:text-xs font-bold uppercase tracking-wider">
-                                        <th class="p-4 md:px-5 md:py-5 sticky-col">Batch Name</th>
-                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Today</th>
-                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Transit</th>
-                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Issues</th>
-                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Dispatched</th>
-                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap">Delivered</th>
-                                        <th class="p-4 md:px-5 md:py-5 text-right whitespace-nowrap sortable group" id="col-delivery-pct">
-                                            Delivered% <i class="fas fa-sort sort-icon"></i>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody id="batch-metrics-table-body" class="divide-y divide-[var(--card-border)]"></tbody>
-                            </table>
+                    <div id="total-enrolled-widget" class="glass-card px-5 py-3 flex items-center gap-4 border-[var(--accent-blue)] border-opacity-30 bg-blue-500/5 transition-all duration-500 opacity-0 translate-y-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-[var(--accent-blue)]">
+                            <i class="fas fa-user-graduate text-lg"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-[var(--accent-blue)] opacity-80">Total Enrolled</span>
+                            <span class="text-xl md:text-2xl font-black text-[var(--text-color)] leading-none tabular-nums" id="total-enrolled-val">--</span>
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
+                
+                <button id="refresh-metrics-btn" class="glass-card px-5 md:px-6 py-2.5 font-bold text-xs uppercase tracking-widest active:scale-95 transition-all flex items-center justify-center gap-2 text-[var(--text-color)] w-full sm:w-auto">
+                    <i class="fas fa-sync-alt"></i> Refresh Data
+                </button>
+            </div>
+
+            <div id="metrics-loader" class="hidden py-32 flex justify-center"><div class="w-10 h-10 border-4 border-[var(--accent-blue)] border-t-transparent rounded-full animate-spin"></div></div>
+
+            <div id="metrics-content" class="hidden flex flex-col gap-6 md:gap-8">
+                <div id="aggregate-totals" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4"></div>
+                
+                <div class="glass-card border border-[var(--card-border)] overflow-hidden shadow-lg">
+                    <div class="table-scroll-container custom-scrollbar">
+                        <table class="w-full text-left border-collapse mobile-table md:min-w-[950px]">
+                            <thead>
+                                <tr class="text-[var(--text-muted-color)] text-[10px] md:text-xs font-bold uppercase tracking-wider">
+                                    <th class="p-4 md:px-5 md:py-4 sticky-col sortable group" data-sort="batchName">Batch Name <i class="fas fa-sort sort-icon"></i></th>
+                                    <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="lsqEnrolled">Enrolled <i class="fas fa-sort sort-icon"></i></th>
+                                    <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="totalDispatched">Dispatched <i class="fas fa-sort sort-icon"></i></th>
+                                    <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="diff">Reco Diff <i class="fas fa-sort sort-icon"></i></th>
+                                    <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="ordersToday">Today <i class="fas fa-sort sort-icon"></i></th>
+                                    <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="inTransit">Transit <i class="fas fa-sort sort-icon"></i></th>
+                                    <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="deliveryIssues">Issues <i class="fas fa-sort sort-icon"></i></th>
+                                    <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="totalDelivered">Delivered <i class="fas fa-sort sort-icon"></i></th>
+                                    <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="pct">Delivered% <i class="fas fa-sort sort-icon"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody id="batch-metrics-table-body" class="divide-y divide-[var(--card-border)]"></tbody>
+                            <tfoot id="batch-metrics-table-foot"></tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Copy Toast -->
@@ -472,10 +431,25 @@
         const metricsContent = document.getElementById('metrics-content');
         const aggregateTotalsContainer = document.getElementById('aggregate-totals');
         const batchMetricsTableBody = document.getElementById('batch-metrics-table-body');
+        const batchMetricsTableFoot = document.getElementById('batch-metrics-table-foot');
         const copyToast = document.getElementById('copy-toast');
 
         let cachedBatches = [];
+        let currentSortKey = null;
         let sortDirection = -1;
+
+        function formatNumber(num) {
+            return new Intl.NumberFormat('en-US').format(num);
+        }
+
+        // --- Smooth Window Scroll Shrink ---
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                document.body.classList.add('is-scrolled');
+            } else {
+                document.body.classList.remove('is-scrolled');
+            }
+        });
 
         // --- Dynamic Greeting Engine ---
         function updateGreeting() {
@@ -504,20 +478,24 @@
                 document.getElementById('search-section').classList.toggle('hidden', target !== 'search');
                 document.getElementById('metrics-section').classList.toggle('hidden', target !== 'metrics');
                 if (target === 'metrics' && aggregateTotalsContainer.children.length === 0) fetchMetrics();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
 
         // --- Theme Sync ---
         const themeToggle = document.getElementById('theme-toggle');
-        const themeIcon = document.querySelector('.theme-icon');
+        const themeIcons = document.querySelectorAll('.theme-icon');
 
-        themeToggle.addEventListener('click', () => {
+        function toggleTheme() {
             document.body.classList.toggle('light-mode');
             const isLight = document.body.classList.contains('light-mode');
-            themeIcon.className = isLight ? 'fas fa-moon text-lg md:text-xl theme-icon' : 'fas fa-sun text-lg md:text-xl theme-icon';
-        });
-
-        const formatNumber = (num) => new Intl.NumberFormat('en-US').format(num);
+            themeIcons.forEach(icon => {
+                icon.className = isLight ? 'fas fa-moon text-sm md:text-lg theme-icon' : 'fas fa-sun text-sm md:text-lg theme-icon';
+            });
+        }
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+        }
 
         function getCourierLink(courierName) {
             if (!courierName) return null;
@@ -650,7 +628,7 @@
                 let hasDestination = destinationDisplay.length > 0;
 
                 html += `
-                <div class="glass-card result-card p-5 md:p-8 flex flex-col gap-5 md:gap-6 animate-in ${statusClass}" style="animation-delay: ${index * 0.08}s">
+                <div class="glass-card result-card p-5 md:p-8 flex flex-col gap-5 md:gap-6 animate-in" style="background-color: var(--tint-${statusClass.replace('picked-up', 'picked')}-bg); border-color: var(--tint-${statusClass.replace('picked-up', 'picked')}-border); animation-delay: ${index * 0.08}s">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 md:gap-6">
                         <div class="flex items-center gap-4 md:gap-6 w-full sm:w-auto">
                             <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[var(--sub-box-bg)] flex-shrink-0 flex items-center justify-center font-bold text-sm md:text-base text-[var(--text-muted-color)] tabular-nums border border-[var(--card-border)]">
@@ -719,24 +697,54 @@
             searchResultsContainer.innerHTML = html;
         }
 
-        // --- DASHBOARD ---
-        refreshMetricsBtn.addEventListener('click', fetchMetrics);
-        
-        document.getElementById('col-delivery-pct').addEventListener('click', () => {
-            sortDirection *= -1;
-            const header = document.getElementById('col-delivery-pct');
-            header.classList.add('sort-active');
-            const icon = header.querySelector('i');
-            icon.className = sortDirection === 1 ? 'fas fa-sort-up sort-icon' : 'fas fa-sort-down sort-icon';
-            
-            cachedBatches.sort((a, b) => {
-                const pctA = a.totalDispatched > 0 ? (a.totalDelivered / a.totalDispatched) : 0;
-                const pctB = b.totalDispatched > 0 ? (b.totalDelivered / b.totalDispatched) : 0;
-                return (pctA - pctB) * sortDirection;
+        // --- UNIVERSAL SORTING ENGINE ---
+        document.querySelectorAll('th.sortable').forEach(header => {
+            header.addEventListener('click', () => {
+                const key = header.dataset.sort;
+                
+                document.querySelectorAll('th.sortable').forEach(th => {
+                    if (th !== header) {
+                        th.classList.remove('sort-active');
+                        th.querySelector('i').className = 'fas fa-sort sort-icon';
+                    }
+                });
+
+                if (currentSortKey === key) {
+                    sortDirection *= -1; 
+                } else {
+                    currentSortKey = key;
+                    sortDirection = -1; 
+                    header.classList.add('sort-active');
+                }
+
+                header.querySelector('i').className = sortDirection === 1 ? 'fas fa-sort-up sort-icon' : 'fas fa-sort-down sort-icon';
+
+                cachedBatches.sort((a, b) => {
+                    let valA, valB;
+                    
+                    if (key === 'pct') {
+                        valA = a.totalDispatched > 0 ? (a.totalDelivered / a.totalDispatched) : 0;
+                        valB = b.totalDispatched > 0 ? (b.totalDelivered / b.totalDispatched) : 0;
+                    } else if (key === 'diff') {
+                        valA = (a.lsqEnrolled || 0) - (a.totalDispatched || 0);
+                        valB = (b.lsqEnrolled || 0) - (b.totalDispatched || 0);
+                    } else if (key === 'batchName') {
+                        valA = String(a.batchName).toLowerCase();
+                        valB = String(b.batchName).toLowerCase();
+                        return valA.localeCompare(valB) * sortDirection;
+                    } else {
+                        valA = a[key] || 0;
+                        valB = b[key] || 0;
+                    }
+                    
+                    return (valA - valB) * sortDirection;
+                });
+                renderTableBody(cachedBatches);
             });
-            renderTableBody(cachedBatches);
         });
 
+        refreshMetricsBtn.addEventListener('click', fetchMetrics);
+        
         async function fetchMetrics() {
             metricsContent.classList.add('hidden');
             metricsLoader.classList.remove('hidden');
@@ -747,6 +755,16 @@
                 const data = await response.json();
                 if (data.success) {
                     cachedBatches = data.batches;
+                    
+                    // Compute Total Enrolled
+                    let totalEnrolled = 0;
+                    cachedBatches.forEach(b => totalEnrolled += (b.lsqEnrolled || 0));
+                    document.getElementById('total-enrolled-val').innerText = formatNumber(totalEnrolled);
+                    
+                    // Reveal Live Stat Widget
+                    const widget = document.getElementById('total-enrolled-widget');
+                    widget.classList.remove('opacity-0', 'translate-y-4');
+
                     renderAggregate(data.totals);
                     renderTableBody(cachedBatches);
                 }
@@ -780,21 +798,69 @@
         }
 
         function renderTableBody(batches) {
-            batchMetricsTableBody.innerHTML = batches.map(b => {
-                const completionPct = b.totalDispatched > 0 ? ((b.totalDelivered / b.totalDispatched) * 100).toFixed(1) : '0.0';
+            let sumEnrolled = 0, sumDispatched = 0, sumToday = 0, sumTransit = 0, sumIssues = 0, sumDelivered = 0;
+
+            const rowsHtml = batches.map(b => {
+                const enrolled = b.lsqEnrolled || 0;
+                const dispatched = b.totalDispatched || 0;
+                const diff = enrolled - dispatched;
+                
+                sumEnrolled += enrolled;
+                sumDispatched += dispatched;
+                sumToday += (b.ordersToday || 0);
+                sumTransit += (b.inTransit || 0);
+                sumIssues += (b.deliveryIssues || 0);
+                sumDelivered += (b.totalDelivered || 0);
+
+                // Smart Diff Color Logic matching requested rules
+                let diffClass = '';
+                if (diff > 0) diffClass = 'text-[var(--accent-amber)] font-bold'; 
+                else if (diff === 0) diffClass = 'text-[var(--text-muted-color)] font-bold opacity-60'; 
+                else if (diff >= -5) diffClass = 'text-[var(--text-muted-color)] font-semibold opacity-80'; 
+                else diffClass = 'text-[var(--accent-red)] font-black'; 
+
+                const completionPct = dispatched > 0 ? ((b.totalDelivered / dispatched) * 100).toFixed(1) : '0.0';
                 const colorClass = getStatusColorClass(completionPct);
                 
                 return `
                 <tr class="hover:bg-[var(--sub-box-bg)] transition-colors active:bg-[var(--card-hover-bg)]">
                     <td class="p-4 md:px-5 md:py-5 font-semibold text-xs md:text-sm tracking-tight text-[var(--text-color)] sticky-col whitespace-nowrap" data-label="Batch Name">${b.batchName}</td>
+                    <td class="p-4 md:px-5 md:py-5 text-right font-bold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap" data-label="Enrolled">${formatNumber(enrolled)}</td>
+                    <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap" data-label="Dispatched">${formatNumber(dispatched)}</td>
+                    <td class="p-4 md:px-5 md:py-5 text-right tabular-nums text-xs md:text-sm ${diffClass} whitespace-nowrap" data-label="Reco Diff">${formatNumber(diff)}</td>
                     <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap" data-label="Today">${formatNumber(b.ordersToday)}</td>
                     <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-blue)] whitespace-nowrap" data-label="Transit">${formatNumber(b.inTransit)}</td>
                     <td class="p-4 md:px-5 md:py-5 text-right font-bold tabular-nums text-xs md:text-sm ${b.deliveryIssues > 0 ? 'text-[var(--accent-red)]' : 'text-[var(--text-muted-color)] opacity-50'} whitespace-nowrap" data-label="Issues">${formatNumber(b.deliveryIssues)}</td>
-                    <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--text-color)] whitespace-nowrap" data-label="Dispatched">${formatNumber(b.totalDispatched)}</td>
                     <td class="p-4 md:px-5 md:py-5 text-right font-semibold tabular-nums text-xs md:text-sm text-[var(--accent-green)] whitespace-nowrap" data-label="Delivered">${formatNumber(b.totalDelivered)}</td>
                     <td class="p-4 md:px-5 md:py-5 text-right font-bold tabular-nums text-xs md:text-sm ${colorClass} whitespace-nowrap" data-label="Delivered%">${completionPct}%</td>
                 </tr>
             `}).join('');
+
+            batchMetricsTableBody.innerHTML = rowsHtml;
+
+            // Render Footers Sums
+            const sumDiff = sumEnrolled - sumDispatched;
+            let sumDiffClass = '';
+            if (sumDiff > 0) sumDiffClass = 'text-[var(--accent-amber)] font-bold';
+            else if (sumDiff === 0) sumDiffClass = 'text-[var(--text-muted-color)] font-bold opacity-60';
+            else if (sumDiff >= -5) sumDiffClass = 'text-[var(--text-muted-color)] font-semibold opacity-80';
+            else sumDiffClass = 'text-[var(--accent-red)] font-black';
+
+            const sumPct = sumDispatched > 0 ? ((sumDelivered / sumDispatched) * 100).toFixed(1) : '0.0';
+
+            batchMetricsTableFoot.innerHTML = `
+                <tr class="font-black text-sm uppercase tracking-wider">
+                    <td class="p-4 md:px-5 md:py-6 sticky-col text-[var(--text-color)]" style="z-index: 30;">TOTALS</td>
+                    <td class="p-4 md:px-5 md:py-6 text-right tabular-nums text-[var(--text-color)]">${formatNumber(sumEnrolled)}</td>
+                    <td class="p-4 md:px-5 md:py-6 text-right tabular-nums text-[var(--text-color)]">${formatNumber(sumDispatched)}</td>
+                    <td class="p-4 md:px-5 md:py-6 text-right tabular-nums ${sumDiffClass}">${formatNumber(sumDiff)}</td>
+                    <td class="p-4 md:px-5 md:py-6 text-right tabular-nums text-[var(--text-color)]">${formatNumber(sumToday)}</td>
+                    <td class="p-4 md:px-5 md:py-6 text-right tabular-nums text-[var(--accent-blue)]">${formatNumber(sumTransit)}</td>
+                    <td class="p-4 md:px-5 md:py-6 text-right tabular-nums ${sumIssues > 0 ? 'text-[var(--accent-red)]' : 'text-[var(--text-muted-color)] opacity-50'}">${formatNumber(sumIssues)}</td>
+                    <td class="p-4 md:px-5 md:py-6 text-right tabular-nums text-[var(--accent-green)]">${formatNumber(sumDelivered)}</td>
+                    <td class="p-4 md:px-5 md:py-6 text-right tabular-nums ${getStatusColorClass(sumPct)}">${sumPct}%</td>
+                </tr>
+            `;
         }
     </script>
 </body>
