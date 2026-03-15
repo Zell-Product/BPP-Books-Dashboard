@@ -88,6 +88,7 @@
             background-color: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.15, 0.83, 0.66, 1);
         }
 
         /* --- Header & Navigation Styles --- */
@@ -264,7 +265,9 @@
         body.light-mode .result-card.rto { background-color: rgba(255, 59, 48, 0.04); border-color: rgba(255, 59, 48, 0.25); }
 
         @media (hover: hover) {
-            .result-card:hover { transform: scale(1.02) translateY(-4px); box-shadow: 0 30px 70px -15px rgba(0,0,0,0.3); z-index: 10; }
+            .result-card:hover { transform: scale(1.02) translateY(-4px); box-shadow: 0 30px 70px -15px rgba(0,0,0,0.4); z-index: 10; }
+            body.light-mode .result-card:hover { box-shadow: 0 25px 60px -15px rgba(0,0,0,0.12); }
+            
             .result-card.delivered:hover { background-color: rgba(48, 209, 88, 0.12); border-color: rgba(48, 209, 88, 0.5); }
             .result-card.transit:hover { background-color: rgba(10, 132, 255, 0.12); border-color: rgba(10, 132, 255, 0.5); }
             .result-card.picked-up:hover { background-color: rgba(255, 159, 10, 0.12); border-color: rgba(255, 159, 10, 0.5); }
@@ -633,7 +636,7 @@
                 let hasDestination = destinationDisplay.length > 0;
 
                 html += `
-                <div class="glass-card result-card p-5 md:p-8 flex flex-col gap-5 md:gap-6 animate-in" style="background-color: var(--tint-${statusClass.replace('picked-up', 'picked')}-bg); border-color: var(--tint-${statusClass.replace('picked-up', 'picked')}-border); animation-delay: ${index * 0.08}s">
+                <div class="glass-card result-card p-5 md:p-8 flex flex-col gap-5 md:gap-6 animate-in ${statusClass}" style="animation-delay: ${index * 0.08}s">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 md:gap-6">
                         <div class="flex items-center gap-4 md:gap-6 w-full sm:w-auto">
                             <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[var(--sub-box-bg)] flex-shrink-0 flex items-center justify-center font-bold text-sm md:text-base text-[var(--text-muted-color)] tabular-nums border border-[var(--card-border)]">
