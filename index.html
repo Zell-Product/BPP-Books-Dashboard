@@ -135,16 +135,15 @@
         
         @media (min-width: 768px) {
             .table-scroll-container {
-                max-height: 65vh; /* Creates the internal scroll window */
+                max-height: 74vh;
                 overflow-y: auto;
             }
             
-            /* True Sticky Header: Sticks to the top of the internal container, NOT the window */
             thead th {
                 position: sticky;
                 top: 0;
                 z-index: 40;
-                background-color: var(--sticky-header-bg); /* Solid bg prevents text bleed */
+                background-color: var(--sticky-header-bg); 
                 border-bottom: 1px solid var(--card-border);
             }
             
@@ -161,7 +160,6 @@
                 background-color: var(--sub-box-bg);
             }
             
-            /* Intersection of Sticky Row and Sticky Col */
             thead th.sticky-col {
                 z-index: 50;
                 background-color: var(--sticky-header-bg);
@@ -173,12 +171,65 @@
             }
         }
 
-        /* The footer flows naturally at the bottom of the data */
         tfoot td {
             background-color: var(--sub-box-bg);
             border-top: 2px solid var(--card-border) !important;
             border-bottom: none !important;
             font-weight: 900;
+        }
+
+        /* --- Apple-Style Tooltip Engine (Downward Drop) --- */
+        .has-tooltip {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: help;
+        }
+        .tooltip-card {
+            visibility: hidden;
+            opacity: 0;
+            width: max-content;
+            max-width: 220px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            text-align: center;
+            border-radius: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            z-index: 100;
+            top: 130%; /* Changed from bottom to top to drop down */
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px); /* Inverted Y transform */
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: none;
+            letter-spacing: normal;
+            transition: opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0.3s;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            white-space: normal;
+            pointer-events: none;
+        }
+        body.light-mode .tooltip-card {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .tooltip-card::after {
+            content: "";
+            position: absolute;
+            bottom: 100%; /* Arrow now points up from the top edge */
+            left: 50%;
+            margin-left: -6px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: transparent transparent var(--card-border) transparent; /* Colored bottom border forms up-arrow */
+        }
+        .has-tooltip:hover .tooltip-card {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
 
         /* --- Mobile Responsive Matrix --- */
@@ -217,7 +268,6 @@
                 margin-bottom: 0.25rem;
             }
             
-            /* Legible, spacious Mobile Batch Title */
             .mobile-table td:nth-child(1) {
                 grid-column: 1 / -1;
                 font-size: 1.35rem !important;
@@ -262,7 +312,6 @@
             background: var(--card-hover-bg);
         }
 
-        /* Ambient Glass Status Tints */
         .result-card.delivered { background-color: rgba(48, 209, 88, 0.06); border-color: rgba(48, 209, 88, 0.3); }
         .result-card.transit { background-color: rgba(10, 132, 255, 0.06); border-color: rgba(10, 132, 255, 0.3); }
         .result-card.picked-up { background-color: rgba(255, 159, 10, 0.06); border-color: rgba(255, 159, 10, 0.3); }
@@ -308,10 +357,9 @@
 
         .sortable { cursor: pointer; user-select: none; transition: background-color 0.2s ease; }
         .sortable:hover { background-color: var(--card-hover-bg); }
-        .sort-icon { font-size: 0.7rem; margin-left: 6px; opacity: 0.3; }
+        .sort-icon { font-size: 0.7rem; margin-left: 6px; opacity: 0.3; transition: color 0.2s; }
         .sort-active .sort-icon { opacity: 1; color: var(--accent-blue); }
 
-        /* Percent Colors */
         .pct-good { color: var(--accent-green); }
         .pct-medium { color: var(--accent-amber); }
         .pct-bad { color: var(--accent-red); }
@@ -329,7 +377,6 @@
 </head>
 <body class="antialiased min-h-screen relative">
 
-    <!-- Reverted: Static, Non-Shrinking Apple Header -->
     <header id="main-header" class="fixed top-0 left-0 right-0 z-50 glass border-b border-[var(--card-border)] bg-[var(--header-bg)]" style="padding-top: var(--safe-top);">
         <div class="max-w-7xl mx-auto px-5 md:px-8 pb-5 pt-5 md:py-0 md:h-28 flex flex-wrap md:flex-nowrap items-center justify-between gap-y-6 md:gap-y-0 relative">
             
@@ -354,10 +401,8 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main id="main-content" class="relative px-4 md:px-8 pb-16 max-w-5xl xl:max-w-[85rem] mx-auto">
             
-        <!-- SEARCH TAB -->
         <section id="search-section">
             <div class="w-full max-w-2xl mx-auto mb-10 md:mb-16 text-center">
                 <h2 class="text-3xl md:text-5xl font-extrabold tracking-tighter mb-6 md:mb-8 text-[var(--text-color)]">Track Dispatch</h2>
@@ -382,11 +427,9 @@
             </div>
 
             <div id="search-results" class="flex flex-col gap-4 md:gap-6 hidden max-w-4xl mx-auto">
-                <!-- JS Populated -->
             </div>
         </section>
 
-        <!-- METRICS TAB -->
         <section id="metrics-section" class="hidden">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-6 md:mb-8">
                 <div class="flex flex-col sm:flex-row sm:items-center gap-6">
@@ -395,7 +438,7 @@
                         <p class="text-[var(--text-muted-color)] text-sm md:text-base font-medium mt-1">Operational data at a glance.</p>
                     </div>
                     
-                    <div id="total-enrolled-widget" class="glass-card px-5 py-3 flex items-center gap-4 border-[var(--accent-blue)] border-opacity-30 bg-blue-500/5 transition-all duration-500 opacity-0 translate-y-4">
+                    <div id="total-enrolled-widget" class="glass-card px-5 py-3 flex items-center gap-4 border-[var(--accent-blue)] border-opacity-30 bg-blue-500/5 transition-all duration-500 opacity-0 translate-y-4 rounded-2xl">
                         <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-[var(--accent-blue)]">
                             <i class="fas fa-user-graduate text-lg"></i>
                         </div>
@@ -414,7 +457,7 @@
             <div id="metrics-loader" class="hidden py-32 flex justify-center"><div class="w-10 h-10 border-4 border-[var(--accent-blue)] border-t-transparent rounded-full animate-spin"></div></div>
 
             <div id="metrics-content" class="hidden flex flex-col gap-6 md:gap-8">
-                <div id="aggregate-totals" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4"></div>
+                <div id="aggregate-totals" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 md:gap-3"></div>
                 
                 <div class="glass-card border border-[var(--card-border)] overflow-hidden shadow-lg">
                     <div class="table-scroll-container custom-scrollbar">
@@ -424,7 +467,15 @@
                                     <th class="p-4 md:px-5 md:py-4 sticky-col sortable group" data-sort="batchName">Batch Name <i class="fas fa-sort sort-icon"></i></th>
                                     <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="lsqEnrolled">Enrolled <i class="fas fa-sort sort-icon"></i></th>
                                     <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="totalDispatched">Dispatched <i class="fas fa-sort sort-icon"></i></th>
-                                    <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="diff">Reco Diff <i class="fas fa-sort sort-icon"></i></th>
+                                    <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="diff">
+                                        <div class="has-tooltip justify-end">
+                                            Reco Diff <i class="fas fa-info-circle text-[9px] opacity-40 transition-opacity"></i>
+                                            <div class="tooltip-card text-[var(--text-color)] shadow-xl">
+                                                Calculated as (Enrolled - Dispatched). Negative values highlight a severe over-dispatch anomaly.
+                                            </div>
+                                        </div>
+                                        <i class="fas fa-sort sort-icon"></i>
+                                    </th>
                                     <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="ordersToday">Today <i class="fas fa-sort sort-icon"></i></th>
                                     <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="inTransit">Transit <i class="fas fa-sort sort-icon"></i></th>
                                     <th class="p-4 md:px-5 md:py-4 text-right whitespace-nowrap sortable group" data-sort="deliveryIssues">Issues <i class="fas fa-sort sort-icon"></i></th>
@@ -441,7 +492,6 @@
         </section>
     </main>
 
-    <!-- Copy Toast -->
     <div id="copy-toast" class="fixed bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 glass border border-[var(--card-border)] bg-[var(--header-bg)] px-6 md:px-8 py-3 md:py-4 rounded-full md:rounded-3xl font-bold shadow-2xl opacity-0 translate-y-8 transition-all duration-500 pointer-events-none z-[100] text-[var(--text-color)] text-sm md:text-base flex items-center whitespace-nowrap">
         <i class="fas fa-check-circle text-[var(--accent-green)] mr-2"></i> ID Copied
     </div>
@@ -470,7 +520,6 @@
             return new Intl.NumberFormat('en-US').format(num);
         }
 
-        // --- Dynamic Greeting Engine ---
         function updateGreeting() {
             const hour = new Date().getHours();
             let greeting = 'Good Evening,';
@@ -488,7 +537,6 @@
         }
         updateGreeting();
 
-        // --- Navigation Sync ---
         document.querySelectorAll('.nav-item').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const target = e.target.dataset.tab;
@@ -501,7 +549,6 @@
             });
         });
 
-        // --- Theme Sync ---
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcons = document.querySelectorAll('.theme-icon');
 
@@ -509,7 +556,7 @@
             document.body.classList.toggle('light-mode');
             const isLight = document.body.classList.contains('light-mode');
             themeIcons.forEach(icon => {
-                icon.className = isLight ? 'fas fa-moon text-sm md:text-lg theme-icon' : 'fas fa-sun text-sm md:text-lg theme-icon';
+                icon.className = isLight ? 'fas fa-moon text-sm md:text-xl theme-icon' : 'fas fa-sun text-sm md:text-xl theme-icon';
             });
         }
         if (themeToggle) {
@@ -716,7 +763,6 @@
             searchResultsContainer.innerHTML = html;
         }
 
-        // --- UNIVERSAL SORTING ENGINE ---
         document.querySelectorAll('th.sortable').forEach(header => {
             header.addEventListener('click', () => {
                 const key = header.dataset.sort;
@@ -742,8 +788,8 @@
                     let valA, valB;
                     
                     if (key === 'pct') {
-                        valA = a.totalDispatched > 0 ? (a.totalDelivered / a.totalDispatched) : 0;
-                        valB = b.totalDispatched > 0 ? (b.totalDelivered / b.totalDispatched) : 0;
+                        valA = a.lsqEnrolled > 0 ? (a.totalDelivered / a.lsqEnrolled) : 0;
+                        valB = b.lsqEnrolled > 0 ? (b.totalDelivered / b.lsqEnrolled) : 0;
                     } else if (key === 'diff') {
                         valA = (a.lsqEnrolled || 0) - (a.totalDispatched || 0);
                         valB = (b.lsqEnrolled || 0) - (b.totalDispatched || 0);
@@ -775,16 +821,14 @@
                 if (data.success) {
                     cachedBatches = data.batches;
                     
-                    // Compute Total Enrolled
                     let totalEnrolled = 0;
                     cachedBatches.forEach(b => totalEnrolled += (b.lsqEnrolled || 0));
                     document.getElementById('total-enrolled-val').innerText = formatNumber(totalEnrolled);
                     
-                    // Reveal Live Stat Widget
                     const widget = document.getElementById('total-enrolled-widget');
                     widget.classList.remove('opacity-0', 'translate-y-4');
 
-                    renderAggregate(data.totals);
+                    renderAggregate(data.totals, totalEnrolled);
                     renderTableBody(cachedBatches);
                 }
             } finally {
@@ -794,8 +838,8 @@
             }
         }
 
-        function renderAggregate(t) {
-            const overallPct = t.totalDispatched > 0 ? ((t.totalDelivered / t.totalDispatched) * 100).toFixed(1) : 0;
+        function renderAggregate(t, totalEnrolled) {
+            const overallPct = totalEnrolled > 0 ? ((t.totalDelivered / totalEnrolled) * 100).toFixed(1) : 0;
             const colorClass = getStatusColorClass(overallPct);
 
             aggregateTotalsContainer.innerHTML = `
@@ -809,10 +853,10 @@
         }
 
         function createMetricBox(label, val, icon, cls='') {
-            return `<div class="glass-card p-4 md:p-6 flex flex-col items-center justify-center text-center gap-1 active:scale-95 md:hover:scale-105 transition-all">
-                <i class="fas ${icon} text-sm md:text-base text-[var(--text-muted-color)] mb-1 md:mb-2"></i>
-                <span class="text-xl md:text-3xl font-bold tracking-tight tabular-nums ${cls || 'text-[var(--text-color)]'}">${val}</span>
-                <span class="text-[9px] md:text-xs font-semibold uppercase tracking-wider text-[var(--text-muted-color)] md:mt-1">${label}</span>
+            return `<div class="glass-card p-3 md:p-4 flex flex-col items-center justify-center text-center gap-1 active:scale-95 md:hover:scale-105 transition-all">
+                <i class="fas ${icon} text-xs md:text-sm text-[var(--text-muted-color)] mb-1"></i>
+                <span class="text-lg md:text-2xl font-bold tracking-tight tabular-nums ${cls || 'text-[var(--text-color)]'}">${val}</span>
+                <span class="text-[9px] md:text-[10px] font-semibold uppercase tracking-wider text-[var(--text-muted-color)]">${label}</span>
             </div>`;
         }
 
@@ -831,14 +875,13 @@
                 sumIssues += (b.deliveryIssues || 0);
                 sumDelivered += (b.totalDelivered || 0);
 
-                // Smart Diff Color Logic matching requested rules
                 let diffClass = '';
                 if (diff > 0) diffClass = 'text-[var(--accent-amber)] font-bold'; 
                 else if (diff === 0) diffClass = 'text-[var(--text-muted-color)] font-bold opacity-60'; 
                 else if (diff >= -5) diffClass = 'text-[var(--text-muted-color)] font-semibold opacity-80'; 
                 else diffClass = 'text-[var(--accent-red)] font-black'; 
 
-                const completionPct = dispatched > 0 ? ((b.totalDelivered / dispatched) * 100).toFixed(1) : '0.0';
+                const completionPct = enrolled > 0 ? ((b.totalDelivered / enrolled) * 100).toFixed(1) : '0.0';
                 const colorClass = getStatusColorClass(completionPct);
                 
                 return `
@@ -857,7 +900,6 @@
 
             batchMetricsTableBody.innerHTML = rowsHtml;
 
-            // Render Footers Sums
             const sumDiff = sumEnrolled - sumDispatched;
             let sumDiffClass = '';
             if (sumDiff > 0) sumDiffClass = 'text-[var(--accent-amber)] font-bold';
@@ -865,7 +907,7 @@
             else if (sumDiff >= -5) sumDiffClass = 'text-[var(--text-muted-color)] font-semibold opacity-80';
             else sumDiffClass = 'text-[var(--accent-red)] font-black';
 
-            const sumPct = sumDispatched > 0 ? ((sumDelivered / sumDispatched) * 100).toFixed(1) : '0.0';
+            const sumPct = sumEnrolled > 0 ? ((sumDelivered / sumEnrolled) * 100).toFixed(1) : '0.0';
 
             batchMetricsTableFoot.innerHTML = `
                 <tr class="font-black text-sm uppercase tracking-wider border-t-2 border-[var(--card-border)]">
