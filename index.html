@@ -682,10 +682,31 @@
                 }
 
                 const courierUrl = getCourierLink(item.courier);
-                const hasTracking = item.trackingId && item.trackingId !== '--';
                 
-                let courierPartnerDisplay = isDispatch ? item.courier : 'Pending Order';
-                if (rawStatus.includes('rto')) courierPartnerDisplay = 'Not Assigned';
+                const hasTracking = item.trackingId && String(item.trackingId).trim() !== '' && String(item.trackingId).trim() !== '--';
+                const hasCourier = item.courier && String(item.courier).trim() !== '' && String(item.courier).trim() !== '--';
+                
+                let courierPartnerDisplay = 'Pending Order';
+                if (isDispatch) {
+                    if (rawStatus.includes('rto')) {
+                        courierPartnerDisplay = 'Not Assigned';
+                    } else if (hasCourier) {
+                        courierPartnerDisplay = item.courier;
+                    } else {
+                        courierPartnerDisplay = '<span class="text-[var(--text-muted-color)] text-xs md:text-sm italic font-medium flex items-center gap-1.5 mt-0.5"><i class="fas fa-clock text-[10px] opacity-70"></i> Awaiting Confirmation</span>';
+                    }
+                }
+
+                let trackingDisplay = '---';
+                if (isDispatch) {
+                    if (rawStatus.includes('rto') && !hasTracking) {
+                        trackingDisplay = '---';
+                    } else if (hasTracking) {
+                        trackingDisplay = item.trackingId;
+                    } else {
+                        trackingDisplay = '<span class="text-[var(--text-muted-color)] text-xs md:text-sm italic font-medium flex items-center gap-1.5 mt-0.5" style="font-family: \'Inter\', sans-serif;"><i class="fas fa-cloud-download-alt text-[10px] opacity-70"></i> Yet to be received</span>';
+                    }
+                }
 
                 let addressParts = [];
                 if (item.address && String(item.address).trim() !== '') addressParts.push(String(item.address).trim());
@@ -731,7 +752,7 @@
                                 <div class="bg-[var(--sub-box-bg)] p-4 md:p-5 rounded-2xl md:rounded-3xl border border-[var(--card-border)] flex items-center justify-between">
                                     <div class="flex flex-col flex-1 overflow-hidden pr-2">
                                         <p class="text-[10px] md:text-xs font-semibold uppercase text-[var(--text-muted-color)] tracking-wider mb-1 md:mb-1.5">Tracking ID</p>
-                                        <p class="text-sm md:text-base font-bold font-mono text-[var(--text-color)] truncate">${hasTracking ? item.trackingId : '---'}</p>
+                                        <p class="text-sm md:text-base font-bold font-mono text-[var(--text-color)] truncate">${trackingDisplay}</p>
                                     </div>
                                     ${hasTracking ? `<i class="fas fa-copy text-lg md:text-xl text-[var(--text-muted-color)] hover:text-[var(--text-color)] transition-colors cursor-pointer p-2 active:scale-90" onclick="copyToClipboard('${item.trackingId}')"></i>` : ''}
                                 </div>
