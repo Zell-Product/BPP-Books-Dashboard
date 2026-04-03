@@ -618,6 +618,53 @@
             }
         }
 
+        function getHelpGuideHtml(delayIndex = 0) {
+            const createHelpCard = (title, color, icon, issue, fix) => `
+                <div class="bg-[var(--sub-box-bg)] rounded-2xl p-5 border border-[var(--card-border)] flex flex-col h-full">
+                    <div class="flex-grow">
+                        <div class="flex items-center gap-2 mb-3">
+                            <i class="fas ${icon} text-[14px]" style="color: ${color}"></i>
+                            <h4 class="text-xs md:text-sm font-bold uppercase tracking-wider text-[var(--text-color)]">${title}</h4>
+                        </div>
+                        <p class="text-[11px] md:text-[12px] text-[var(--text-muted-color)] font-medium leading-relaxed mb-4">
+                            <span class="font-bold text-[var(--text-color)]">Issue:</span> ${issue}
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-[var(--card-border)] mt-auto">
+                        <p class="text-[11px] md:text-[12px] text-[var(--text-color)] font-medium leading-relaxed">
+                            <span class="font-bold" style="color: ${color}">Fix:</span> ${fix}
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            return `
+            <div class="mt-8 md:mt-12 pt-8 md:pt-10 border-t border-[var(--card-border)] animate-in" style="animation-delay: ${delayIndex * 0.08}s">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 md:mb-8">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-[var(--accent-blue)] shadow-inner" style="background: rgba(10, 132, 255, 0.1);">
+                            <i class="fas fa-life-ring"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg md:text-xl font-extrabold tracking-tight text-[var(--text-color)]">Troubleshooting Guide</h3>
+                            <p class="text-[10px] md:text-xs font-semibold text-[var(--text-muted-color)] uppercase tracking-wider mt-0.5">Who to contact when things go wrong</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                    ${createHelpCard('RTO / Undelivered', 'var(--accent-red)', 'fa-undo', 'Delivery Failed. The courier couldn\'t reach the student, the address is wrong, or the package was rejected.', 'Contact <strong>Vighnesh</strong>. He will coordinate with the courier to get the book returned to us faster so we can resend it to the student.')}
+                    ${createHelpCard('On Hold', 'var(--accent-amber)', 'fa-hand-paper', 'We are missing information. The system will state exactly why the package was stopped (e.g., missing phone number, incomplete address).', 'Contact <strong>Ritesh</strong> or <strong>Shivam</strong>. Get the missing details from the student, give them to Ritesh/Shivam, and they will release the package.')}
+                    ${createHelpCard('In Transit (10+ Days)', 'var(--accent-blue)', 'fa-truck-fast', 'It is stuck. If a book takes more than 10 working days to arrive, there is a problem with the courier.', 'Contact <strong>Vighnesh</strong>. Send him the tracking ID immediately so he can investigate the delay.')}
+                    ${createHelpCard('Delivered (Not Received)', 'var(--accent-green)', 'fa-user-ninja', 'Delivered to the wrong hands. The student has not received. The courier likely left it with a security guard, a neighbor, or at the front desk. Or it has been marked as delivered prematurely.', 'Contact <strong>Vighnesh</strong>. He will pull the exact delivery proof from the courier to find out exactly who signed for it.')}
+                    ${createHelpCard('Dispatched (No Tracking)', 'var(--text-muted-color)', 'fa-barcode', 'The courier picked up the box, but no tracking ID was updated in our system.', 'Contact <strong>Vighnesh</strong>. If it has been more than 2 days since the dispatch date, Vighnesh will contact the courier to generate or update the tracking ID.')}
+                    ${createHelpCard('Stock Shortage', 'var(--accent-amber)', 'fa-boxes-stacked', 'We are out of books. We do not currently have the physical inventory for that specific subject.', 'Contact <strong>Ritesh</strong> or <strong>Shivam</strong> for an update. If the student\'s need is urgent, escalate the issue directly to <strong>Yash</strong>.')}
+                    ${createHelpCard('Damaged Book', 'var(--accent-red)', 'fa-book-open-reader', 'The student received the book, but it was damaged in transit.', 'Raise first with <strong>Vighnesh</strong> who will check with the couriers. If book needs to be resent he will pass on the request to <strong>Ritesh/Shivam</strong>.')}
+                </div>
+            </div>
+            `;
+        }
+
         function renderSearchResults(results, id) {
             if (results.length === 0) {
                 searchResultsContainer.innerHTML = `
@@ -640,7 +687,8 @@
                             <p>If you believe this is an error, please report it to the Tech Team.</p>
                         </div>
                     </div>
-                </div>`;
+                </div>
+                ${getHelpGuideHtml(2)}`;
                 return;
             }
 
@@ -780,7 +828,9 @@
                     </div>
                 </div>`;
             });
+            
             html += `</div>`;
+            html += getHelpGuideHtml(results.length + 1);
             searchResultsContainer.innerHTML = html;
         }
 
