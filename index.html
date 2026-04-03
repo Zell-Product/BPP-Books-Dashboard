@@ -12,6 +12,10 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
         
+        html {
+            scroll-behavior: smooth;
+        }
+
         :root {
             --safe-top: max(env(safe-area-inset-top), 16px);
             
@@ -88,12 +92,17 @@
             background-color: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 1.5rem;
-            transition: all 0.4s cubic-bezier(0.15, 0.83, 0.66, 1);
+            /* Targeted transitions avoid layout thrashing */
+            transition: transform 0.4s cubic-bezier(0.15, 0.83, 0.66, 1), box-shadow 0.4s ease, background-color 0.4s ease;
         }
 
         /* --- Header & Navigation Styles --- */
         #main-header {
             box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+            transition: height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+        }
+        body.is-scrolled #main-header {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .nav-pill-container {
@@ -111,7 +120,7 @@
         .nav-item {
             color: var(--text-muted-color);
             border-radius: 9999px;
-            transition: all 0.2s ease;
+            transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
         }
         .nav-item.active {
             background: var(--nav-active-bg);
@@ -132,9 +141,6 @@
             width: 100%;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            overscroll-behavior: contain;
-            transform: translateZ(0); /* Hardware accelerate scrolling */
-            will-change: scroll-position;
         }
         
         @media (min-width: 768px) {
@@ -149,7 +155,7 @@
                 z-index: 40;
                 background-color: var(--sticky-header-bg); 
                 border-bottom: 1px solid var(--card-border);
-                background-clip: padding-box; /* Prevent sticky border rendering jitter */
+                background-clip: padding-box; 
             }
             
             .sticky-col {
@@ -241,7 +247,7 @@
 
         /* --- Mobile Responsive Matrix --- */
         @media (max-width: 767px) {
-            .table-scroll-container { overflow-y: visible; max-height: none; transform: none; will-change: auto; overscroll-behavior: auto; }
+            .table-scroll-container { overflow-y: visible; max-height: none; }
             .mobile-table { min-width: 100% !important; border-collapse: separate; border-spacing: 0 1.25rem; }
             .mobile-table thead { display: none; }
             .mobile-table tbody { display: block; }
@@ -353,6 +359,7 @@
         .status-badge {
             padding: 0.5rem 1.25rem; border-radius: 9999px; display: flex; align-items: center; gap: 0.5rem;
             font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+            /* Removed backdrop-filter here to significantly boost scroll frame rates */
         }
         .status-badge.delivered { background-color: var(--badge-delivered-bg); color: var(--accent-green); }
         .status-badge.transit { background-color: var(--badge-transit-bg); color: var(--accent-blue); }
@@ -524,6 +531,20 @@
             return new Intl.NumberFormat('en-US').format(num);
         }
 
+        // --- Smooth Hardware-Accelerated Window Scroll Listener ---
+        let isScrolled = false;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.scrollY > 20;
+            if (currentScroll !== isScrolled) {
+                isScrolled = currentScroll;
+                if (isScrolled) {
+                    document.body.classList.add('is-scrolled');
+                } else {
+                    document.body.classList.remove('is-scrolled');
+                }
+            }
+        }, { passive: true }); // passive flag makes scroll ultra smooth
+
         function updateGreeting() {
             const hour = new Date().getHours();
             let greeting = 'Good Evening,';
@@ -665,6 +686,7 @@
                     ${createHelpCard('Stock Shortage', 'var(--accent-amber)', 'fa-boxes-stacked', 'We are out of books. We do not currently have the physical inventory for that specific subject.', 'Contact <strong>Ritesh</strong> or <strong>Shivam</strong> for an update. If the student\'s need is urgent, escalate the issue directly to <strong>Yash</strong>.')}
                     ${createHelpCard('Damaged Book', 'var(--accent-red)', 'fa-book-open-reader', 'The student received the book, but it was damaged in transit.', 'Raise first with <strong>Vighnesh</strong> who will check with the couriers. If book needs to be resent he will pass on the request to <strong>Ritesh/Shivam</strong>.')}
                     ${createHelpCard('Address Change', 'var(--accent-blue)', 'fa-map-location-dot', 'The student wants to change their delivery address after the order has been logged.', 'If the book is <strong>already dispatched</strong>, nothing can be done. If the order is <strong>Queued or On Hold</strong>, contact <strong>Ritesh/Shivam</strong> immediately to update it.')}
+                    ${createHelpCard('Missing Subject Book', 'var(--text-muted-color)', 'fa-file-signature', 'Student is asking for a specific subject book, but the order is not shown here. Reason is likely the BABA form for that subject\'s batch is not filled.', 'Raise an internal ticket to the team to get the student enrolled in the batch and get the BABA form sent/filled. Then we can dispatch those books.')}
                 </div>
             </div>
             `;
@@ -709,7 +731,7 @@
                             <span class="text-[10px] md:text-sm font-semibold text-[var(--text-muted-color)] uppercase tracking-wider">Books Dispatched: ${results.length}</span>
                             
                             <button onclick="document.getElementById('troubleshooting-guide').scrollIntoView({behavior: 'smooth', block: 'start'})" class="sm:ml-auto px-4 py-1.5 rounded-xl bg-[var(--card-hover-bg)] border border-[var(--card-border)] text-[var(--text-color)] text-[10px] md:text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:border-[var(--accent-blue)] hover:text-[var(--accent-blue)] active:scale-95 transition-all group shadow-sm">
-                                <i class="fas fa-life-ring text-[var(--accent-blue)]"></i> Dispatch Guide <i class="fas fa-arrow-down opacity-50 group-hover:translate-y-0.5 transition-transform"></i>
+                                <i class="fas fa-circle-info text-[var(--accent-blue)]"></i> Dispatch Issue? Check Here <i class="fas fa-arrow-down opacity-50 group-hover:translate-y-0.5 transition-transform"></i>
                             </button>
                         </div>
                     </div>
