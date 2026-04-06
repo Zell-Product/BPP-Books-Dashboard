@@ -391,23 +391,22 @@
 <body class="antialiased min-h-screen relative">
 
     <header id="main-header" class="fixed top-0 left-0 right-0 z-50 glass border-b border-[var(--card-border)] bg-[var(--header-bg)]" style="padding-top: var(--safe-top);">
-        <!-- Re-engineered Flex Layout: Perfect mobile row, perfectly preserved desktop greeting -->
-        <div class="max-w-7xl mx-auto px-4 md:px-8 h-16 md:h-28 flex items-center justify-between relative">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 h-16 md:h-28 flex items-center justify-center md:justify-between relative">
             
-            <!-- Greeting: Visible only on Desktop, securely anchored to the left -->
-            <div class="hidden md:flex flex-col justify-center flex-1 min-w-0">
-                <span id="dynamic-greeting" class="text-xl md:text-2xl font-extrabold tracking-tight text-[var(--text-color)] leading-none truncate"></span>
-                <span id="dynamic-date" class="text-[10px] md:text-[11px] font-bold text-[var(--text-muted-color)] mt-1.5 md:mt-2 uppercase tracking-[0.2em] truncate"></span>
+            <!-- Greeting: Visible only on Desktop -->
+            <div class="hidden md:flex flex-col justify-center z-10">
+                <span id="dynamic-greeting" class="text-xl md:text-2xl font-extrabold tracking-tight text-[var(--text-color)] leading-none whitespace-nowrap"></span>
+                <span id="dynamic-date" class="text-[10px] md:text-[11px] font-bold text-[var(--text-muted-color)] mt-1.5 md:mt-2 uppercase tracking-[0.2em] whitespace-nowrap"></span>
             </div>
 
-            <!-- Center: Nav Pills. Left aligned on mobile, true absolute center on desktop -->
-            <div class="nav-pill-container flex justify-center z-10 shadow-sm shrink-0 md:absolute md:left-1/2 md:-translate-x-1/2">
+            <!-- Center: Nav Pills -->
+            <div class="nav-pill-container flex justify-center z-10 shadow-sm md:absolute md:left-1/2 md:-translate-x-1/2">
                 <button data-tab="search" class="nav-item active px-5 py-2 md:py-2.5 md:px-14 font-bold text-[13px] md:text-[0.95rem] tracking-wide text-center">Search</button>
                 <button data-tab="metrics" class="nav-item px-5 py-2 md:py-2.5 md:px-14 font-bold text-[13px] md:text-[0.95rem] tracking-wide text-center">Batches</button>
             </div>
 
-            <!-- Right: Theme Toggle -->
-            <div class="flex justify-end flex-1 min-w-0 md:flex-none z-10">
+            <!-- Right: Theme Toggle (Absolute pinned to right) -->
+            <div class="absolute right-4 md:right-8 z-10 flex justify-end">
                 <button id="theme-toggle" class="w-9 h-9 md:w-[3.25rem] md:h-[3.25rem] rounded-full glass border border-[var(--card-border)] flex items-center justify-center active:scale-95 text-[var(--text-color)] shadow-md transition-transform duration-200">
                     <i class="fas fa-sun text-sm md:text-xl theme-icon"></i>
                 </button>
@@ -475,8 +474,7 @@
                 
                 <div class="glass-card border border-[var(--card-border)] overflow-hidden shadow-lg">
                     <div class="table-scroll-container custom-scrollbar">
-                        <!-- Reverted to border-separate to completely fix sticky border scroll jitter -->
-                        <table class="w-full text-left border-separate border-spacing-0 mobile-table md:min-w-[950px]">
+                        <table class="w-full text-left border-collapse mobile-table md:min-w-[950px]">
                             <thead>
                                 <tr class="text-[var(--text-muted-color)] text-[10px] md:text-xs font-bold uppercase tracking-wider">
                                     <th class="p-4 md:px-5 md:py-4 sticky-col sortable group" data-sort="batchName">Batch Name <i class="fas fa-sort sort-icon"></i></th>
@@ -535,20 +533,6 @@
             return new Intl.NumberFormat('en-US').format(num);
         }
 
-        // --- Hardware-Accelerated Shadow Scroll Listener ---
-        let isScrolled = false;
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.scrollY > 20;
-            if (currentScroll !== isScrolled) {
-                isScrolled = currentScroll;
-                if (isScrolled) {
-                    document.body.classList.add('is-scrolled');
-                } else {
-                    document.body.classList.remove('is-scrolled');
-                }
-            }
-        }, { passive: true });
-
         function updateGreeting() {
             const hour = new Date().getHours();
             let greeting = 'Good Evening,';
@@ -574,8 +558,6 @@
                 document.getElementById('search-section').classList.toggle('hidden', target !== 'search');
                 document.getElementById('metrics-section').classList.toggle('hidden', target !== 'metrics');
                 if (target === 'metrics' && aggregateTotalsContainer.children.length === 0) fetchMetrics();
-                
-                // Allow CSS smooth scroll by using JS behavior smooth
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
@@ -683,14 +665,13 @@
                     </div>
                 </div>
                 
-                <!-- Ticket Submission Form Embed (Moved to Top) -->
                 <div class="mb-6 md:mb-8 p-5 md:p-6 rounded-2xl border border-[var(--accent-blue)] bg-blue-500/10 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
                     <div class="text-center sm:text-left">
                         <h4 class="text-sm md:text-base font-bold text-[var(--accent-blue)]">Cannot resolve your issue?</h4>
                         <p class="text-xs text-[var(--text-muted-color)] mt-1 font-medium">Log an official support ticket and our team will investigate immediately.</p>
                     </div>
                     <a href="https://forms.gle/jSC46Lc4GxzK25n28" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-[var(--accent-blue)] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-blue-600 transition-colors shadow-md active:scale-95 whitespace-nowrap">
-                        <i class="fas fa-ticket-alt"></i> Raise a Ticket
+                        <i class="fas fa-ticket-alt"></i> Raise Issue
                     </a>
                 </div>
                 
